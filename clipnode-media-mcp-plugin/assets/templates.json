@@ -1,0 +1,668 @@
+{
+  "version": 1,
+  "schema": "clipnode.mcp.templates.v1",
+  "description": "Built-in reference templates for ClipNode MCP clients. Templates are examples and must be merged with user intent, probed sources, and capabilities before validation.",
+  "items": [
+    {
+      "id": "video_soft_9_16",
+      "version": 1,
+      "name": "Soft 9:16 Video",
+      "description": "Crop a video to 9:16, keep audio, and export with quality-first settings.",
+      "taskType": "video_edit",
+      "tags": ["short_video", "portrait", "soft", "social"],
+      "input": {
+        "mediaTypes": ["video"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [],
+      "config": {
+        "canvas": {
+          "preset": "custom",
+          "width": 1080,
+          "height": 1920
+        },
+        "fit": {
+          "mode": "center_crop"
+        },
+        "export": {
+          "preset": "quality_first",
+          "keepAudio": true
+        }
+      }
+    },
+    {
+      "id": "video_full_self_blur_canvas",
+      "version": 1,
+      "name": "Full Video With Self Blur Background",
+      "description": "Show the full foreground video on a custom canvas and fill the canvas with a blurred copy of the same video.",
+      "taskType": "video_edit",
+      "tags": ["video", "canvas", "background", "self_blur", "full_frame", "center_inside"],
+      "input": {
+        "mediaTypes": ["video"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [
+        {
+          "name": "canvasWidth",
+          "type": "number",
+          "required": false,
+          "default": 640
+        },
+        {
+          "name": "canvasHeight",
+          "type": "number",
+          "required": false,
+          "default": 480
+        },
+        {
+          "name": "blurRadius",
+          "type": "number",
+          "required": false,
+          "default": 24
+        }
+      ],
+      "config": {
+        "canvas": {
+          "preset": "custom",
+          "width": 640,
+          "height": 480,
+          "background": {
+            "mode": "self_blur",
+            "fitMode": "center_crop",
+            "blurEnabled": true,
+            "blurRadius": 24,
+            "opacity": 1.0,
+            "color": "#000000"
+          }
+        },
+        "fit": {
+          "mode": "center_inside"
+        },
+        "export": {
+          "preset": "quality_first",
+          "keepAudio": true
+        }
+      }
+    },
+    {
+      "id": "video_compress_480p_size_first",
+      "version": 1,
+      "name": "480p Size-First Video Compress",
+      "description": "Compress one video with size-first bitrate settings, 480p max output, and optional audio preservation.",
+      "taskType": "video_compress",
+      "tags": ["video", "compress", "size_first", "480p", "mp4"],
+      "input": {
+        "mediaTypes": ["video"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [],
+      "config": {
+        "export": {
+          "preset": "size_first",
+          "bitrateFactor": 0.14,
+          "targetHeight": 480,
+          "fps": 24,
+          "keepAudio": true
+        }
+      }
+    },
+    {
+      "id": "video_composition_soft_fade",
+      "version": 1,
+      "name": "Soft Fade Video Composition",
+      "description": "Compose multiple clips into one video with soft fade transitions and audio cross-fade.",
+      "taskType": "video_composition",
+      "tags": ["video_composition", "视频合成", "soft", "fade", "smooth"],
+      "input": {
+        "mediaTypes": ["video", "image"],
+        "minSources": 2,
+        "maxSources": 20
+      },
+      "variables": [],
+      "config": {
+        "transitionDefaults": {
+          "assetPath": "transitions/fade.glsl",
+          "durationUs": 800000,
+          "audioCrossFade": true,
+          "tags": ["soft", "fade", "smooth"]
+        },
+        "export": {
+          "preset": "quality_first",
+          "keepAudio": true
+        }
+      }
+    },
+    {
+      "id": "hls_to_mp4_quality",
+      "version": 1,
+      "name": "HLS to MP4 Quality",
+      "description": "Export one m3u8 URL to a final MP4 file with network fallback enabled.",
+      "taskType": "hls_mp4_export",
+      "tags": ["hls", "m3u8", "mp4", "quality"],
+      "input": {
+        "mediaTypes": ["m3u8"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [
+        {
+          "name": "videoId",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "config": {
+        "export": {
+          "overwrite": false,
+          "allowNetworkFallback": true,
+          "cleanupSegments": true,
+          "keepAudio": true
+        }
+      }
+    },
+    {
+      "id": "gif_crop_resize_reverse",
+      "version": 1,
+      "name": "GIF Crop Resize Reverse",
+      "description": "Crop a GIF with normalized coordinates, optionally sample frames, reverse frame order, and resize output.",
+      "taskType": "gif_edit",
+      "tags": ["gif", "crop", "resize", "reverse", "sampling"],
+      "input": {
+        "mediaTypes": ["gif"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [],
+      "config": {
+        "gif": {
+          "backward": true,
+          "frameSpace": 1,
+          "outputWidth": 320,
+          "outputHeight": 320,
+          "crop": {
+            "enabled": true,
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          }
+        },
+        "export": {
+          "outputName": "gif_crop_resize_reverse.gif"
+        }
+      }
+    },
+    {
+      "id": "video_to_gif_clip_crop",
+      "version": 1,
+      "name": "Video to GIF Clip Crop",
+      "description": "Convert a short video range to a resized GIF with optional frame sampling, reverse order, and normalized crop.",
+      "taskType": "video_to_gif",
+      "tags": ["video", "gif", "clip", "crop", "resize", "sampling"],
+      "input": {
+        "mediaTypes": ["video"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [],
+      "config": {
+        "timeRange": {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        "gif": {
+          "fps": 12,
+          "frameSpace": 1,
+          "backward": false,
+          "outputWidth": 320,
+          "outputHeight": 320,
+          "crop": {
+            "enabled": true,
+            "x": 0.1,
+            "y": 0.1,
+            "width": 0.8,
+            "height": 0.8
+          }
+        },
+        "export": {
+          "outputName": "video_to_gif_clip_crop.gif"
+        }
+      }
+    },
+    {
+      "id": "image_edit_square_title",
+      "version": 1,
+      "name": "Square Image With Title",
+      "description": "Crop an image to a square canvas, add a bottom title sticker, and export JPG.",
+      "taskType": "image_edit",
+      "tags": ["image", "crop", "square", "text", "sticker"],
+      "input": {
+        "mediaTypes": ["image"],
+        "minSources": 1,
+        "maxSources": 1
+      },
+      "variables": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "config": {
+        "canvas": {
+          "preset": "custom",
+          "width": 1080,
+          "height": 1080
+        },
+        "fit": {
+          "mode": "center_crop"
+        },
+        "stickers": {
+          "items": [
+            {
+              "id": "image_title_1",
+              "type": "text",
+              "x": 0.5,
+              "y": 0.88,
+              "scale": 1,
+              "rotation": 0,
+              "text": {
+                "content": "{{title}}",
+                "color": "#FFFFFFFF",
+                "textSize": 56
+              },
+              "textStyle": {
+                "bold": true,
+                "backgroundColor": "#99000000",
+                "backgroundCornerRadius": 18,
+                "horizontalPadding": 28,
+                "verticalPadding": 14
+              }
+            }
+          ]
+        },
+        "export": {
+          "outputName": "image_edit_square_title.jpg",
+          "imageQuality": 90
+        }
+      }
+    },
+    {
+      "id": "image_compose_3x3_screenshot_grid",
+      "version": 1,
+      "name": "3x3 Screenshot Grid",
+      "description": "Compose nine screenshots into one square PNG with transparent background and fixed spacing.",
+      "taskType": "image_compose",
+      "tags": ["image_compose", "image", "grid", "3x3", "screenshot", "png", "transparent"],
+      "input": {
+        "mediaTypes": ["image"],
+        "minSources": 9,
+        "maxSources": 9
+      },
+      "variables": [],
+      "config": {
+        "imageCompose": {
+          "layoutMode": "grid_3x3",
+          "outputRatio": "1:1",
+          "outputWidth": 1800,
+          "outputHeight": 1800,
+          "spacingPx": 12,
+          "paddingPx": 24,
+          "transparentBackground": true,
+          "fitMode": "center_crop",
+          "forceOutputSize": true
+        },
+        "export": {
+          "outputName": "image_compose_3x3.png",
+          "imageQuality": 100
+        }
+      }
+    },
+    {
+      "id": "image_compose_product_long",
+      "version": 1,
+      "name": "Product Long Image",
+      "description": "Compose product images into a clean vertical JPG/PNG for ecommerce or social sharing.",
+      "taskType": "image_compose",
+      "tags": ["image_compose", "image", "product", "ecommerce", "long_image", "vertical", "template"],
+      "input": {
+        "mediaTypes": ["image"],
+        "minSources": 2,
+        "maxSources": 16
+      },
+      "variables": [],
+      "config": {
+        "imageCompose": {
+          "layoutMode": "vertical",
+          "outputRatio": "auto",
+          "outputWidth": 1080,
+          "spacingPx": 16,
+          "paddingPx": 32,
+          "backgroundColor": 4294967295,
+          "transparentBackground": false,
+          "fitMode": "center_inside"
+        },
+        "export": {
+          "outputName": "product_long_image.jpg",
+          "imageQuality": 92
+        }
+      }
+    },
+    {
+      "id": "video_edit_rich_text_gif_badge",
+      "version": 1,
+      "name": "Rich Text And GIF Badge",
+      "description": "Add a styled title text sticker, a smaller animated badge text sticker, and an optional GIF sticker to a short video.",
+      "taskType": "video_edit",
+      "tags": ["video", "text", "sticker", "gif", "badge", "grid", "time_binding", "animation"],
+      "input": {
+        "mediaTypes": ["video", "gif"],
+        "minSources": 1,
+        "maxSources": 2
+      },
+      "variables": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "badgeText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gifPath",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "config": {
+        "timeRange": {
+          "startUs": 0,
+          "endUs": 3000000
+        },
+        "audio": {
+          "mute": true,
+          "volume": 0
+        },
+        "stickers": {
+          "items": [
+            {
+              "id": "rich_title_text",
+              "type": "text",
+              "startUs": 0,
+              "endUs": 3000000,
+              "x": 0.5,
+              "y": 0.78,
+              "scale": 2.8,
+              "rotation": -2,
+              "text": {
+                "content": "{{title}}",
+                "color": "#FFFFFFFF",
+                "textSize": 52
+              },
+              "textStyle": {
+                "bold": true,
+                "strokeEnabled": true,
+                "strokeWidth": 2,
+                "strokeColor": "#CC172033",
+                "backgroundColor": "#AA0B5FFF",
+                "backgroundCornerRadius": 14,
+                "horizontalPadding": 18,
+                "verticalPadding": 10
+              },
+              "grid": {
+                "enabled": false,
+                "rows": 1,
+                "columns": 1
+              },
+              "timeBinding": {
+                "moveWithTime": false
+              },
+              "animation": {
+                "inName": "ScaleHandler",
+                "loopName": "",
+                "outName": "FadeHandler"
+              }
+            },
+            {
+              "id": "badge_text",
+              "type": "text",
+              "startUs": 300000,
+              "endUs": 2800000,
+              "x": 0.84,
+              "y": 0.18,
+              "scale": 2.4,
+              "rotation": 8,
+              "text": {
+                "content": "{{badgeText}}",
+                "color": "#FFFFD166",
+                "textSize": 40
+              },
+              "textStyle": {
+                "underline": true,
+                "underlineWidth": 2,
+                "underlineColor": "#FFFFD166",
+                "glowEnabled": true,
+                "glowRadius": 8,
+                "glowColor": "#FFFFFFFF",
+                "backgroundColor": "#66000000",
+                "backgroundCornerRadius": 10,
+                "horizontalPadding": 12,
+                "verticalPadding": 8
+              },
+              "grid": {
+                "enabled": true,
+                "rows": 1,
+                "columns": 2,
+                "horizontalSpacing": 0.35,
+                "verticalSpacing": 0.1
+              },
+              "timeBinding": {
+                "moveWithTime": true
+              },
+              "animation": {
+                "inName": "ScaleHandler",
+                "loopName": "",
+                "outName": "ScaleHandler"
+              }
+            },
+            {
+              "id": "optional_gif_badge",
+              "type": "gif",
+              "startUs": 0,
+              "endUs": 3000000,
+              "x": 0.18,
+              "y": 0.22,
+              "scale": 0.42,
+              "rotation": 0,
+              "gif": {
+                "path": "{{gifPath}}"
+              },
+              "grid": {
+                "enabled": false,
+                "rows": 1,
+                "columns": 1
+              },
+              "timeBinding": {
+                "moveWithTime": false
+              },
+              "animation": {
+                "inName": "FadeHandler",
+                "loopName": "",
+                "outName": "FadeHandler"
+              }
+            }
+          ]
+        },
+        "export": {
+          "preset": "balanced",
+          "quality": "balanced",
+          "fps": 24,
+          "keepAudio": false,
+          "bitrateFactor": 0.5
+        }
+      }
+    },
+    {
+      "id": "image_memory_video",
+      "version": 1,
+      "name": "Image Memory Video",
+      "description": "Create a memory video from phone images and GIFs, use fit-center framing, random style-based transitions, title text, and ending text.",
+      "taskType": "video_composition",
+      "tags": ["video_composition", "memory", "image", "gif", "slideshow", "album", "random_transition", "3d"],
+      "input": {
+        "mediaTypes": ["image", "gif"],
+        "minSources": 2,
+        "maxSources": 30
+      },
+      "variables": [
+        {
+          "name": "collectionName",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "sourceCount",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "titleText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "endingText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "transitionTags",
+          "type": "string[]",
+          "required": false
+        }
+      ],
+      "config": {
+        "sourceDefaults": {
+          "durationUs": 3000000,
+          "trim": {
+            "startUs": 0,
+            "endUs": 3000000
+          },
+          "fit": {
+            "mode": "fit_center"
+          },
+          "audio": {
+            "mute": true,
+            "volume": 0
+          }
+        },
+        "transitionDefaults": {
+          "durationUs": 800000,
+          "audioCrossFade": false,
+          "tags": ["3d", "recommended", "soft", "fade"]
+        },
+        "canvas": {
+          "preset": "custom",
+          "width": 1920,
+          "height": 1080
+        },
+        "stickers": {
+          "items": [
+            {
+              "id": "memory_title",
+              "type": "text",
+              "startUs": 0,
+              "endUs": 6000000,
+              "x": 0.5,
+              "y": 0.12,
+              "scale": 2.4,
+              "rotation": 0,
+              "text": {
+                "content": "{{titleText}}",
+                "color": "#FFFFFFFF",
+                "textSize": 42
+              },
+              "textStyle": {
+                "bold": true,
+                "strokeEnabled": true,
+                "strokeWidth": 2,
+                "strokeColor": "#DD000000",
+                "backgroundColor": "#66000000",
+                "backgroundCornerRadius": 10,
+                "horizontalPadding": 18,
+                "verticalPadding": 10
+              },
+              "grid": {
+                "enabled": false,
+                "rows": 1,
+                "columns": 1
+              },
+              "timeBinding": {
+                "moveWithTime": false
+              },
+              "animation": {
+                "inName": "FadeHandler",
+                "loopName": "ScaleHandler",
+                "outName": "FadeHandler"
+              }
+            },
+            {
+              "id": "memory_ending",
+              "type": "text",
+              "x": 0.5,
+              "y": 0.82,
+              "scale": 2.1,
+              "rotation": 0,
+              "text": {
+                "content": "{{endingText}}",
+                "color": "#FFFFFFFF",
+                "textSize": 42
+              },
+              "textStyle": {
+                "bold": true,
+                "strokeEnabled": true,
+                "strokeWidth": 2,
+                "strokeColor": "#DD000000",
+                "backgroundColor": "#77000000",
+                "backgroundCornerRadius": 10,
+                "horizontalPadding": 18,
+                "verticalPadding": 10
+              },
+              "grid": {
+                "enabled": false,
+                "rows": 1,
+                "columns": 1
+              },
+              "timeBinding": {
+                "moveWithTime": false
+              },
+              "animation": {
+                "inName": "FadeHandler",
+                "loopName": "",
+                "outName": "FadeHandler"
+              }
+            }
+          ]
+        },
+        "export": {
+          "preset": "balanced",
+          "quality": "balanced",
+          "fps": 24,
+          "keepAudio": false,
+          "bitrateFactor": 0.5
+        }
+      }
+    }
+  ]
+}
