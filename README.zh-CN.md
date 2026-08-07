@@ -9,6 +9,19 @@ ClipNode Media MCP 是 ClipNode Android App 本地媒体服务的 MCP 桥接项�
 ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
+## 目录
+
+- [App 作品展示](docs/showcase.zh-CN.md)
+- [核心亮点](#核心亮点)
+- [工作方式](#工作方式)
+- [快速开始](#快速开始)
+- [客户端接入](#客户端接入)
+- [发布压缩包](#发布压缩包)
+- [可以这样对 AI 说](#可以这样对-ai-说)
+- [文档](#文档)
+- [示例脚本](#示例脚本)
+- [安全说明](#安全说明)
+
 ## 核心亮点
 
 - 完全免费使用。
@@ -96,7 +109,7 @@ dist/codex/clipnode-media-mcp/
 dist/clipnode-media-mcp-codex.zip
 ```
 
-这个 zip 是一个可独立安装/拷贝使用的插件包，包含 Codex 元数据和运行所需的共用 MCP server 文件。
+这个 zip 是一个可独立安装/拷贝使用的插件包，包含 Codex 元数据和运行所需的共用 MCP server 文件。GitHub 作品展示页不会打进运行包。
 
 ## 可以这样对 AI 说
 
@@ -114,6 +127,7 @@ dist/clipnode-media-mcp-codex.zip
 
 | 文件 | 作用 |
 |---|---|
+| [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) | App 能力展示页，目前从转场演示开始，后续可扩展更多作品能力。 |
 | [docs/capabilities.md](docs/capabilities.md) | 支持的工作流、工具、模板、目录和 AI 流程规则。 |
 | [docs/ai-prompts.md](docs/ai-prompts.md) | 可直接复制给 AI 客户端的示例提示词。 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 连接失败、PIN、局域网、权限、上传下载和导出失败排查。 |
