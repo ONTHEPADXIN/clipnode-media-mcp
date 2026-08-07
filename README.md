@@ -9,6 +9,19 @@ With this MCP bridge, an AI client can browse phone media, upload source files, 
 ClipNode currently requires the Android app. Install it from Google Play:
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
+## Contents
+
+- [App Showcase](docs/showcase.md)
+- [Highlights](#highlights)
+- [How It Works](#how-it-works)
+- [Quick Start](#quick-start)
+- [Client Integrations](#client-integrations)
+- [Release Packages](#release-packages)
+- [Common Things You Can Ask](#common-things-you-can-ask)
+- [Documentation](#documentation)
+- [Examples](#examples)
+- [Safety](#safety)
+
 ## Highlights
 
 - Free to use.
@@ -96,7 +109,7 @@ dist/codex/clipnode-media-mcp/
 dist/clipnode-media-mcp-codex.zip
 ```
 
-The zip is a self-contained plugin package. It includes the Codex metadata plus the shared MCP server files needed at runtime.
+The zip is a self-contained plugin package. It includes the Codex metadata plus the shared MCP server files needed at runtime. GitHub showcase pages are not included in the runtime package.
 
 ## Common Things You Can Ask
 
@@ -114,6 +127,7 @@ More examples are in [docs/ai-prompts.md](docs/ai-prompts.md).
 
 | File | Purpose |
 |---|---|
+| [docs/showcase.md](docs/showcase.md) | App capability showcase with visual examples, starting with transition demos. |
 | [docs/capabilities.md](docs/capabilities.md) | Supported workflows, tools, templates, catalogs, and AI workflow rules. |
 | [docs/ai-prompts.md](docs/ai-prompts.md) | Copy-ready prompts users can give to an AI client. |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | Connection, PIN, local network, permission, upload/download, and export troubleshooting. |
