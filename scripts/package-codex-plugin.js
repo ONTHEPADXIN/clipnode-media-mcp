@@ -13,12 +13,16 @@ const zipPath = path.join(distDir, `${packageName}-codex.zip`);
 const codexIntegrationDir = path.join(rootDir, "integrations", "codex");
 
 const entriesToCopy = [
-  "README.md",
-  "README.zh-CN.md",
   "assets",
-  "docs",
   "examples",
   "lib"
+];
+
+const docsToCopy = [
+  "ai-prompts.md",
+  "capabilities.md",
+  "privacy-and-local-service.md",
+  "troubleshooting.md"
 ];
 
 const scriptFiles = [
@@ -32,6 +36,14 @@ function copyEntry(source, target) {
     dereference: false,
     force: true
   });
+}
+
+function copyReadmeForPackage(sourceFile, targetFile) {
+  const source = fs.readFileSync(sourceFile, "utf8");
+  const lines = source
+    .split(/\r?\n/)
+    .filter((line) => !line.includes("docs/showcase"));
+  fs.writeFileSync(targetFile, `${lines.join("\n").trimEnd()}\n`);
 }
 
 function ensureZipAvailable() {
@@ -54,9 +66,19 @@ function buildPackageDirectory() {
 
   copyEntry(path.join(codexIntegrationDir, ".codex-plugin"), path.join(packageDir, ".codex-plugin"));
   copyEntry(path.join(codexIntegrationDir, ".mcp.json"), path.join(packageDir, ".mcp.json"));
+  copyReadmeForPackage(path.join(rootDir, "README.md"), path.join(packageDir, "README.md"));
+  copyReadmeForPackage(path.join(rootDir, "README.zh-CN.md"), path.join(packageDir, "README.zh-CN.md"));
 
   for (const entry of entriesToCopy) {
     copyEntry(path.join(rootDir, entry), path.join(packageDir, entry));
+  }
+
+  const docsDir = path.join(packageDir, "docs");
+  fs.mkdirSync(docsDir, {
+    recursive: true
+  });
+  for (const docFile of docsToCopy) {
+    copyEntry(path.join(rootDir, "docs", docFile), path.join(docsDir, docFile));
   }
 
   const scriptsDir = path.join(packageDir, "scripts");
