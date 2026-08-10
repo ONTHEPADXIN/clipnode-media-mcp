@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "clipnode-media": {
+      "command": "node",
+      "args": [
+        "./scripts/clipnode-media-mcp-server.js"
+      ],
+      "env": {
+        "CLIPNODE_BASE_URL": "http://127.0.0.1:18080",
+        "CLIPNODE_PIN": ""
+      }
+    }
+  }
+}
