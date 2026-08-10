@@ -14,6 +14,8 @@ ClipNode 内置了大量 GL 视频转场动画，可用于回忆视频、图片�
 
 ## 转场效果
 
+这些转场效果大部分移植自开源项目 [gl-transitions](https://github.com/gl-transitions/gl-transitions/tree/master)。
+
 | 类别 | YouTube | 展示重点 |
 |---|---|---|
 | 推荐 | [https://youtu.be/48fgzheRcsg](https://youtu.be/48fgzheRcsg) | 适合常见剪辑场景的一组精选转场。 |

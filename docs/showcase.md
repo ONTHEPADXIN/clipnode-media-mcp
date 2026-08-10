@@ -14,6 +14,8 @@ Click any YouTube link to watch the demo.
 
 ## Transition Effects
 
+Most of these transition effects are ported from the open-source [gl-transitions](https://github.com/gl-transitions/gl-transitions/tree/master) collection.
+
 | Category | YouTube | What It Shows |
 |---|---|---|
 | Recommended | [https://youtu.be/48fgzheRcsg](https://youtu.be/48fgzheRcsg) | A curated overview of transitions that work well for common edits. |
