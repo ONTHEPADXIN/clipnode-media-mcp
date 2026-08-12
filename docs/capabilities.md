@@ -29,6 +29,7 @@ ClipNode Media MCP is a bridge to the ClipNode Android app. The MCP server recei
 - Local PC-to-phone upload and phone-to-PC download.
 - Validation and plan preview before export.
 - AI-readable plan summaries, risk hints, and suggested fixes.
+- Interactive AI editing for the currently open ClipNode media-session draft through structured patches.
 
 ## Default AI Workflow
 
@@ -42,6 +43,7 @@ clipnode_task_begin, for multi-step workflows
 clipnode_media_get_capabilities
 -> list transitions, sticker animations, or templates only when needed
 -> list phone media / asset-library items, or upload PC files into the asset library
+-> clipnode_media_validate_app_path, when a candidate path will be used as a sticker/background/audio/source
 -> clipnode_media_probe_sources
 -> build the task request
 -> clipnode_media_validate_task
@@ -53,6 +55,27 @@ clipnode_media_get_capabilities
 ```
 
 ClipNode uses a single local media queue. Create one export job at a time and poll it to a terminal state before starting another one.
+
+When the user is already on the ClipNode media-session edit page and wants AI to intervene in the current draft, use the interactive edit flow instead:
+
+```text
+clipnode_edit_get_current_state
+-> read sessionId, revision, editableIndex, patchGrammar, selectedContext, and current state
+-> read patchGrammar.modeRules to know which sections/actions are valid for the current edit mode
+-> clipnode_media_validate_app_path, when adding image/GIF stickers or section media paths
+-> build a small patch using only ids from editableIndex
+-> clipnode_edit_validate_patch, for non-trivial or uncertain edits
+-> clipnode_edit_apply_patch
+-> read revision, idMap, changedObjects, changedSections, and summary from the response
+-> clipnode_edit_create_export, when the user wants the current draft exported
+-> App surfaces the live export/progress panel and starts the export
+-> poll clipnode_edit_get_current_state and read exportStatus until completedOnce/exportedPath
+-> clipnode_media_download_file, if the result should be saved on the PC
+```
+
+`clipnode_edit_create_export` already validates readiness before starting. Use `clipnode_edit_validate_export` only when the user asks whether the draft can be exported, or when the AI wants to show a read-only export plan without starting.
+
+If `clipnode_edit_apply_patch` returns `revision_conflict`, call `clipnode_edit_get_current_state` again and rebuild the patch against the latest revision.
 
 ## Token-Saving Rules
 
@@ -67,8 +90,9 @@ AI clients should keep media workflows path-based and summary-based:
 - For `video_composition`, prefer 8-12 sources for quick drafts and up to the recommended `maxSources=30` for normal single tasks. If the user asks for more than 30, warn about higher time, memory, export failure, and wait-time risk, then consider sampling or splitting the work.
 - After `clipnode_media_validate_task`, explain the result with `planSummary.readableText` and `timelineSummary` instead of restating the full request JSON.
 - Poll job status with compact summaries; fetch large event logs only when debugging a failure.
+- For interactive session edits, do not paste the full `stateJson` back to the user. Use `editableIndex`, `patchGrammar`, and only the fields needed for the requested patch.
 
-For non-HLS media tasks, source references must be App-visible local files. Use `path` from phone media lists, `path` from asset-library items, or `assetPath`/`appPath` returned by an asset-library upload. Current probe/edit paths do not resolve temporary upload `fileId`, `mediaId`, or remote URLs. HLS/m3u8 URLs use the dedicated HLS tool and should not be sent to `clipnode_media_probe_sources`.
+For non-HLS media tasks, source references must be App-visible local files. Use `path` from phone media lists, `path` from asset-library items, or `assetPath`/`appPath` returned by an asset-library upload. Current validate/probe/edit paths do not resolve temporary upload `fileId`, `mediaId`, or remote URLs. HLS/m3u8 URLs use the dedicated HLS tool and should not be sent to `clipnode_media_validate_app_path` or `clipnode_media_probe_sources`.
 
 When an AI client uploads PC media through MCP, the recommended default is to save it into the asset library with `target.kind=asset_library`, `target.type`, and `target.themeName`. Asset-library uploads are easier for the App and AI to browse, reuse, manage, and delete later. Temporary upload should be reserved for explicitly one-off transfers that do not need later discovery or cleanup.
 
@@ -102,6 +126,28 @@ For `video_composition`, `clipnode_media_get_capabilities` reports `minSources=2
 | `clipnode_task_get_status` | Read task state, progress, problem summary, output candidates, and tool runs. |
 | `clipnode_task_get_current` | Read the app's current active AI task and recent task events. |
 | `clipnode_task_list_events` | Read the compact event log for one AI task. |
+
+### Interactive Session Editing
+
+Use these tools when the user is already editing a draft in the ClipNode media-session page and asks AI to adjust that open draft. These tools update the live App state and preview; they are not export jobs.
+
+| Tool | Purpose |
+|---|---|
+| `clipnode_edit_get_current_state` | Read the active edit session, current revision, selectedContext, editableIndex, and patchGrammar. `patchGrammar.modeRules` scopes allowed patches to the active edit mode. Pass `compact=true` for a smaller stateSummary; omit it when full state/stateJson is needed. |
+| `clipnode_edit_list_history` | List AI-applied patch history and redo count for the active edit session. |
+| `clipnode_edit_validate_patch` | Dry-run a patch without mutating the draft. |
+| `clipnode_edit_apply_patch` | Apply a patch to the active draft, update UI/preview/draft, and return the new revision plus idMap. |
+| `clipnode_edit_undo` | Undo the latest AI-applied patch in the bridge history. |
+| `clipnode_edit_redo` | Redo the latest undone AI-applied patch. |
+| `clipnode_edit_validate_export` | Optional read-only preflight. Validate whether the active live draft can be exported now and return readiness, a live-session export plan, and `exportStatus` without starting export. |
+| `clipnode_edit_create_export` | Recommended export entry. Validate readiness, then show the App's live export/progress panel and start exporting the active draft using current UI/runtime/spec settings. Poll `clipnode_edit_get_current_state.exportStatus`; this does not return a headless jobId. |
+
+Live-session export status:
+
+- `clipnode_edit_get_current_state` returns `exportStatus`.
+- While exporting, `exportStatus.working=true` and progress fields update.
+- On success, `exportStatus.completedOnce=true` and `exportStatus.exportedPath` points to the App output file.
+- Use `clipnode_media_download_file` with `outputPath=exportStatus.exportedPath` and `mediaType=image/video` when the user needs the result on the PC.
 
 ### Phone Media
 
@@ -142,6 +188,7 @@ asset_library/{video|image|audio}/{themeName}/
 | Tool | Purpose |
 |---|---|
 | `clipnode_media_probe_sources` | Read metadata for App-visible local `path`/`appPath` sources. Does not probe HLS URLs or unresolved upload `fileId`. |
+| `clipnode_media_validate_app_path` | Lightweight path gate for App-visible `path`/`appPath`/`assetPath` before stickers, canvas background, external audio, media source, or image-compose source patches. Rejects PC paths, remote URLs, unresolved ids, unsupported types, and purpose/type mismatches. |
 | `clipnode_media_validate_task` | Validate and normalize a non-HLS media task before export. |
 | `clipnode_media_create_task` | Create one validated non-HLS media task in the app queue. |
 | `clipnode_media_export_m3u8_to_mp4` | Export one HLS/m3u8 URL to MP4. Requires positive `source.videoId` and one `.m3u8` `source.url`. |
@@ -172,6 +219,144 @@ Sticker support includes:
 - Enter, loop, and exit animations selected from the sticker animation catalog.
 
 Use `clipnode_media_get_sticker_capabilities` and `clipnode_media_list_sticker_animations` before building sticker requests.
+
+## Interactive Patch Contract
+
+Interactive edit patches are intentionally small and rule-based. The MCP plugin exposes the tools; the Android app owns validation, normalization, id generation, preview updates, draft saving, and undo/redo history.
+
+Mode rules:
+
+- Always read `patchGrammar.modeRules` from `clipnode_edit_get_current_state`.
+- Mode rules are a conservative live-session patch surface, not the final product boundary. Expand them only after App runtime restore, validation, UI refresh, and draft save are verified for that mode.
+- `patchGrammar.modeRules.intentCapabilities` is the AI-facing capability list for the current page. Prefer it over guessing from task type names.
+- `video_edit` currently exposes timeRange, canvas, fit, transform, audio, export, and stickers.
+- `video_compress` currently exposes timeRange, audio, and export. In the task-flow API it remains a separate taskType for compression-oriented routing/templates, but in live-session patching it should be treated as a video_edit compression/export profile rather than a fully separate editor.
+- `video_composition` currently exposes canvas, audio, export, stickers, `compositionSegments`, and `compositionTransitions`.
+- `image_edit` currently exposes canvas, fit, transform, export, and stickers.
+- `image_compose` currently exposes imageCompose, export, and imageComposeSources object patches. It does not expose sticker patches yet.
+- `gif_edit` currently exposes timeRange, canvas, fit, transform, gif, export, and stickers.
+- `video_to_gif` currently exposes timeRange, fit, transform, gif, export, and stickers.
+- If a section/action is absent from `patchGrammar`, do not send it; the App rejects unsupported patches before apply.
+- Prefer headless task flow for one-shot template generation, batch work, and compression. Prefer live-session patching when the user is looking at the current draft or wants AI to continue a partially manual edit.
+- `sectionPatch/timeRange` accepts `startUs/endUs` in microseconds and aliases `startMs/endMs`, `startSec/endSec`.
+- For image composition, `objectPatch` with `collection=imageComposeSources` can add, replace, delete, move, rotate, flip, fit, or crop sources. Existing source ids come from `editableIndex`; `add` may omit `id`. Use `patchGrammar.modeRules.objectCollectionRules.imageComposeSources.ops` for the exact op list.
+- For video composition, `objectPatch` with `collection=compositionSegments` can add, replace, delete, move, trim, fit, crop, mute, adjust volume, rotate, or flip segments. Existing ids come from `editableIndex`; `add` may omit `id` and can use `value.index`.
+- Before adding or replacing a video composition video/GIF source, call `clipnode_media_probe_sources` with `includeFrameTimeline=true` and `frameTimelineMode=full`; for videos also pass `includeKeyFrameTimeline=true`. Copy `frameTimeline.values` into `value.frameTimeline.values` or `value.frameTimeList`, and copy `keyFrameTimeline.values` into `value.keyFrameTimeline.values` or `value.keyFrameTimeList`.
+
+Authentication:
+
+- The MCP server reuses the App-issued auth cookie in memory.
+- It also keeps a local short-lived auth cache keyed by base URL and PIN hash so reconnects do not need to call `/auth/pin` every time.
+- If the App returns 401, the MCP server clears the cached cookie, authenticates once with the PIN, and retries the request.
+- Set `CLIPNODE_AUTH_CACHE=0` to disable the local auth cache. Set `CLIPNODE_AUTH_CACHE_FILE=/path/to/auth-cache.json` to choose a custom cache file.
+
+Patch request shape:
+
+```json
+{
+  "sessionId": "current",
+  "baseRevision": 0,
+  "patches": [
+    {
+      "type": "actionPatch",
+      "action": "add_text_sticker",
+      "clientTempId": "ai_title_1",
+      "value": {
+        "x": 0.5,
+        "y": 0.82,
+        "text": {
+          "content": "Title",
+          "textSize": 42,
+          "color": "#FFFFFFFF"
+        }
+      }
+    }
+  ]
+}
+```
+
+Supported patch types:
+
+| Type | Purpose | Key fields |
+|---|---|---|
+| `sectionPatch` | Merge a top-level edit section. | `section`, `op=merge`, `value` |
+| `objectPatch` | Merge, delete, or reorder an existing object. | `collection=stickers`, `id`, `op`, `value` |
+| `actionPatch` | Add a new object or run a named action. | `action`, `clientTempId`, `value` |
+
+Current supported targets:
+
+| Target | Values |
+|---|---|
+| Sections | `canvas`, `fit`, `transform`, `audio`, `gif`, `imageCompose`, `export` |
+| Object collections | `stickers` |
+| Object ops | `merge`, `delete`, `duplicate`, `bringToFront`, `sendToBack`, `moveForward`, `moveBackward` |
+| Actions | `add_text_sticker`, `add_image_sticker`, `add_gif_sticker` |
+
+Section patch field rules:
+
+- Read `patchGrammar.sectionPatchFields` from `clipnode_edit_get_current_state` before writing section patches.
+- `canvas` supports preset/size/background fields. Live-session `canvas.preset` supports `original`, `custom`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3`, `9:16`, and `16:9`; `background.mode` supports `none/color/self_blur/image/video`.
+- `fit` supports `mode=center_crop/center_inside/fit_width/fit_height/stretch/custom` plus `custom.scale/offsetX/offsetY`.
+- `transform` supports `rotateDegrees` as multiples of 90 and horizontal/vertical flip.
+- `audio` supports mute/volume and App-readable external audio with `endMode=trim_to_video/loop_to_video/play_once`. When enabling `audio.external`, pass `path/appPath/assetPath` plus `durationUs` from phone media, asset-library selection, or media probe; `sourceEndUs` must be within `durationUs` and defaults to the full audio duration for newly enabled tracks.
+- `gif` supports fps/frameSpace/backward/transparency/output size/crop.
+- `export` supports preset, size, fps, bitrate, bitrateFactor, and imageQuality. Audio retention is normalized from audio settings.
+- Invalid enum values, out-of-range values, and missing App-readable source paths fail validation before apply.
+
+Id rules:
+
+- Existing object ids must be copied from `editableIndex` returned by `clipnode_edit_get_current_state`.
+- AI clients must not invent existing-object ids.
+- New objects should use a caller-generated `clientTempId`.
+- After apply, read `idMap` to map `clientTempId` to the App-generated canonical id.
+- `baseRevision` must match the latest state revision. On conflict, refresh state and rebuild the patch.
+
+Image compose source rules:
+
+- In `image_compose`, editable source slots use `collection=imageComposeSources`.
+- Source ids look like `imageComposeSource:{index}` and must be copied from `editableIndex`.
+- Supported ops are `add`, `merge`, `replace`, `delete`, `moveForward`, `moveBackward`, and `moveTo`.
+- `add` may omit `id`; pass `clientTempId` and read the canonical new id from `idMap`. `value.index` is optional and defaults to append.
+- `add`, `replace`, and `merge` accept `path`, `appPath`, or `assetPath`; the path must validate as `purpose=image_compose_source`.
+- `add` is capped at 16 sources and currently rejects duplicate paths because the live editor model cannot represent two independent crop instances of the same path safely yet.
+- `moveTo` requires `value.index`.
+- `delete` keeps at least two image sources.
+
+Sticker transform field rules:
+
+- Position accepts either top-level `x`/`y` or nested `position.x`/`position.y`.
+- Scale/rotation accept either top-level `scale`/`rotation` or nested `transform.scale`/`transform.rotation`.
+- Coordinates are normalized center positions in the active StickerView: `x=0.5`, `y=0.5` means center.
+- Sticker timing accepts `startUs` and `endUs`.
+- Sticker animation accepts `animation.inName`, `animation.loopName`, and `animation.outName`.
+- For live session patches, prefer names from `patchGrammar.animationNames`. `loopName` supports App catalog names such as `ScaleHandler`, `FadeHandler`, `HeartbeatHandler`, `BlinkHandler`, `SwingHandler`, and `ShakeHandler`; unsupported names fail validation instead of silently becoming no-op.
+- Sticker grid accepts `grid.enabled`, `grid.rows`, `grid.columns`, `grid.horizontalSpacing`, `grid.verticalSpacing`, or `grid.spacing`.
+- Time-follow motion accepts `timeBinding.moveWithTime`.
+- Sticker duplication uses objectPatch `op=duplicate`; pass `clientTempId` and read the canonical id from `idMap`.
+- Sticker layer order uses objectPatch ops: `bringToFront`, `sendToBack`, `moveForward`, and `moveBackward`.
+
+UI hint rules:
+
+- `uiHint` is optional and is not editing data.
+- Use `uiHint.select=true` when the changed or newly added sticker should become selected after apply.
+- `highlight` and `openPanel` are reserved for UI feedback; keep `openPanel=false` unless the user explicitly asks to open an editing panel.
+- App responses include `changedObjects`, `changedSections`, and `summary` so AI clients can explain what changed without diffing the full state.
+
+Image sticker path rules:
+
+- `add_image_sticker` accepts `image.path`, `image.appPath`, `image.assetPath`, or top-level `path`, `appPath`, `assetPath`.
+- The final path must be a local file readable by the Android app process.
+- Do not pass a PC path, remote URL, temporary upload `fileId`, or unresolved media id as an image sticker path.
+- For MCP-originated images, upload/select them into an App-visible asset-library or phone-local path first, then pass the returned App path.
+- When uncertain, call `clipnode_media_validate_app_path` with `purpose=image_sticker` before `clipnode_edit_validate_patch`.
+
+GIF sticker path rules:
+
+- `add_gif_sticker` accepts `gif.path`, `gif.appPath`, `gif.assetPath`, or top-level `path`, `appPath`, `assetPath`.
+- The final path must be a local `.gif` file readable by the Android app process.
+- Probe the GIF first with `clipnode_media_probe_sources` and `includeFrameTimeline=true`, then pass `gif.frameTimeList` or `gif.frameTimeline` plus width/height. If App metadata is already cached, the bridge can use the cache; otherwise it returns `gif_info_not_ready`.
+- Do not pass a PC path, remote URL, temporary upload `fileId`, or unresolved media id as a GIF sticker path.
+- When uncertain, call `clipnode_media_validate_app_path` with `purpose=gif_sticker` before probing and applying.
 
 ## Built-In Templates
 

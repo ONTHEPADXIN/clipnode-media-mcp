@@ -1,7 +1,7 @@
 {
   "name": "clipnode-media-mcp",
   "version": "0.1.0+codex.20260803123422",
-  "description": "MCP bridge for ClipNode local media edit service.",
+  "description": "MCP bridge for ClipNode local media export and interactive session editing.",
   "homepage": "https://github.com/ONTHEPADXIN/clipnode-media-mcp",
   "repository": "https://github.com/ONTHEPADXIN/clipnode-media-mcp",
   "author": {
@@ -9,15 +9,15 @@
   },
   "interface": {
     "displayName": "ClipNode Media MCP",
-    "shortDescription": "Control ClipNode local media export through MCP.",
-    "longDescription": "Adds MCP tools, a workflow resource, and a workflow prompt that expose ClipNode local media capabilities, phone media browsing, file upload/download, task validation, serial export jobs, HLS m3u8 to MP4 export, job status, outputs, transition tags, sticker animation capabilities, and built-in reference templates.",
+    "shortDescription": "Control ClipNode media export and live edit-session patches through MCP.",
+    "longDescription": "Adds MCP tools, a workflow resource, and a workflow prompt that expose ClipNode local media capabilities, phone media browsing, file upload/download, task validation, serial export jobs, HLS m3u8 to MP4 export, job status, outputs, transition tags, sticker animation capabilities, built-in reference templates, and interactive AI patch editing for the currently open ClipNode media-session draft, including compact current-state reads and text/image/GIF sticker patches.",
     "developerName": "ONTHEPAD",
     "category": "Productivity",
     "capabilities": [
       "mcp"
     ],
     "websiteURL": "https://github.com/ONTHEPADXIN/clipnode-media-mcp",
-    "defaultPrompt": "Use ClipNode Media MCP as a local video editing workflow: read capabilities, upload/probe sources, validate the task, create one queued job, poll status, then download successful outputs. Prefer the MCP tools over manual curl checks. Do not use sandboxed curl/wget/ad-hoc HTTP scripts for CLIPNODE_BASE_URL, localhost, LAN, Android device, emulator, or ADB-forwarded endpoints; if a real HTTP request is necessary, request sandbox_permissions=require_escalated and explain the endpoint, purpose, and expected effect."
+    "defaultPrompt": "Use ClipNode Media MCP as a local media workflow. For new export jobs: read capabilities, upload/probe sources, validate the task, create one queued job, poll status, then download successful outputs. When the user is already on the ClipNode edit/session page and asks AI to modify the current draft, call clipnode_edit_get_current_state, prefer compact=true for targeting reads, use editableIndex ids, validate/apply a small patch with baseRevision, and read idMap for newly created objects. Current session patches can add text, image, or GIF stickers; probe GIF stickers with includeFrameTimeline=true and pass gif.frameTimeList. Prefer the MCP tools over manual curl checks. Do not use sandboxed curl/wget/ad-hoc HTTP scripts for CLIPNODE_BASE_URL, localhost, LAN, Android device, emulator, or ADB-forwarded endpoints; if a real HTTP request is necessary, request sandbox_permissions=require_escalated and explain the endpoint, purpose, and expected effect."
   },
   "mcpServers": "./.mcp.json"
 }

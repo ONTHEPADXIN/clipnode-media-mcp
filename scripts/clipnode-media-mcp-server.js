@@ -54,8 +54,35 @@ async function handleTool(name, args) {
     requireString(args, "taskId");
     return client.requestJson("GET", `/media/ai-tasks/${encodeURIComponent(args.taskId)}/events`, undefined, args || {}, name);
   }
+  if (name === "clipnode_edit_get_current_state") {
+    return client.requestJson("GET", withQuery("/media/edit/current", pickQuery(args, ["compact", "format"])), undefined, args || {}, name);
+  }
+  if (name === "clipnode_edit_list_history") {
+    return client.requestJson("GET", withQuery("/media/edit/history", pickQuery(args, ["sessionId"])), undefined, args || {}, name);
+  }
+  if (name === "clipnode_edit_validate_patch") {
+    return client.requestJson("POST", "/media/edit/validate", args || {}, args || {}, name);
+  }
+  if (name === "clipnode_edit_apply_patch") {
+    return client.requestJson("POST", "/media/edit/patch", args || {}, args || {}, name);
+  }
+  if (name === "clipnode_edit_undo") {
+    return client.requestJson("POST", "/media/edit/undo", normalizeEditSessionRequest(args || {}), args || {}, name);
+  }
+  if (name === "clipnode_edit_redo") {
+    return client.requestJson("POST", "/media/edit/redo", normalizeEditSessionRequest(args || {}), args || {}, name);
+  }
+  if (name === "clipnode_edit_validate_export") {
+    return client.requestJson("POST", "/media/edit/export/validate", normalizeEditSessionRequest(args || {}), args || {}, name);
+  }
+  if (name === "clipnode_edit_create_export") {
+    return client.requestJson("POST", "/media/edit/export", normalizeEditSessionRequest(args || {}), args || {}, name);
+  }
   if (name === "clipnode_media_probe_sources") {
     return client.requestJson("POST", "/media/probe", args || {}, args || {}, name);
+  }
+  if (name === "clipnode_media_validate_app_path") {
+    return client.requestJson("POST", "/media/paths/validate", args || {}, args || {}, name);
   }
   if (name === "clipnode_media_list_video_dirs") {
     return client.requestJson("GET", "/localVideoDirs", undefined, args || {}, name);
@@ -234,6 +261,12 @@ function pickQuery(args, keys) {
 function normalizeAssetQuery(args) {
   const query = pickQuery(args, ["type", "themeName", "query", "page", "pageSize"]);
   return query;
+}
+
+function normalizeEditSessionRequest(args) {
+  return {
+    sessionId: args.sessionId || "current"
+  };
 }
 
 async function selectAssetSources(args, toolName) {

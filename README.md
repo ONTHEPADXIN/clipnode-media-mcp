@@ -4,7 +4,7 @@
 
 ClipNode Media MCP connects MCP-compatible AI clients to the ClipNode Android app, enabling local video, GIF, image, and HLS media workflows on your phone.
 
-With this MCP bridge, an AI client can browse phone media, upload source files, choose templates and effects, validate an edit plan, start a local export job, poll progress, and download the finished result back to the computer.
+With this MCP bridge, an AI client can browse phone media, upload source files, choose templates and effects, validate an edit plan, start a local export job, poll progress, and download the finished result back to the computer. When you are already editing in the ClipNode session page, the same bridge can also read the live draft and apply structured AI patches to the current edit.
 
 ClipNode currently requires the Android app. Install it from Google Play:
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
@@ -33,6 +33,7 @@ ClipNode currently requires the Android app. Install it from Google Play:
 - Text, image, and GIF stickers, including text styles, stroke, glow, background, padding, timing, grid layout, and enter/loop/exit animations.
 - Local file upload/download between the computer and the Android device.
 - Dry-run validation before export, with readable plan summaries, risk hints, and suggested fixes.
+- Interactive AI patching for the currently open media-session draft, including current-state export, patch validation/apply, and AI undo/redo.
 
 ## How It Works
 
@@ -83,6 +84,20 @@ If capabilities are returned, the chain is working:
 AI client -> MCP server -> ClipNode app local service
 ```
 
+For live session editing, open a media edit session in the Android app first, then ask the AI client to call:
+
+```text
+clipnode_edit_get_current_state
+```
+
+The AI should use the returned `editableIndex` for existing object ids, send `baseRevision` with each patch, and read `idMap` after adding new objects.
+For section edits, read `patchGrammar.sectionCapabilities` first to see validator/projector/verifier coverage, then choose fields from `patchGrammar.sectionPatchFields`. Some sections are state-runtime backed rather than timeline-backed; check `stateProjector`, `stateVerifier`, `completeForSessionState`, and `runtimeCoverage`.
+Use `compact=true` for normal targeting reads. Current action patches can add text, image, or GIF stickers. For image/GIF stickers, canvas backgrounds, external audio, and source paths, use `clipnode_media_validate_app_path` when the path is uncertain. GIF stickers should then be probed with `includeFrameTimeline=true` and applied with an App-readable `.gif` path plus `gif.frameTimeList`.
+In `image_compose`, use `sectionPatch/imageCompose` for layout/output fields or complete source-list replacement. For one image slot add/replace/delete/reorder/crop/rotate/flip, prefer `objectPatch` with `collection=imageComposeSources`; existing ids come from `editableIndex`, and source-list replacement must keep 2-16 unique App-readable images.
+Sticker runtime restore can briefly be eventually consistent after apply/undo/redo because StickerView imports and layout happen asynchronously. If apply/undo/redo/current_state returns `pendingSections=["stickers"]` or `sticker_projection_pending` warnings, wait briefly and read again; do not overwrite the spec with transient StickerView default `x/y/scale` values or stale sticker objects.
+
+To finish the live draft, call `clipnode_edit_create_export`. It validates readiness internally, opens the App export/progress panel, starts export, and then you can poll `clipnode_edit_get_current_state` for `exportStatus`. Use `clipnode_edit_validate_export` only when you need a read-only preflight or want to explain why export is not ready. Export plans split `specExport`, `runtimeExport`, and `warnings`; video live-session export consumes width/height/fps/bitrate from `runtimeExport`, while any remaining mode-specific gaps are listed in `warnings`.
+
 ## Client Integrations
 
 Client-specific files live under `integrations/`. The shared MCP implementation stays in `scripts/`, `lib/`, and `assets/`, then release packages copy those shared files into each client package.
@@ -120,6 +135,7 @@ The zip is a self-contained plugin package. It includes the Codex metadata plus 
 - "Reverse this GIF, crop it to a square, lower the frame rate, and add a bottom watermark."
 - "Make a 3x3 image from 9 screenshots with transparent background and 12px spacing."
 - "Convert this m3u8 link to MP4 and download it to my computer."
+- "I am on the ClipNode edit page. Add a bold glowing title near the bottom of the current draft, preview it, and keep it editable."
 
 More examples are in [docs/ai-prompts.md](docs/ai-prompts.md).
 
@@ -169,6 +185,7 @@ Useful examples:
 - `examples/gif-stickers.mcp-client.js`
 - `examples/image-edit-title.mcp-client.js`
 - `examples/image-compose-grid.mcp-client.js`
+- `examples/live-session-edit-regression.mcp-client.js`
 - `examples/image-memory-video.mcp-client.js`
 - `examples/asset-library-video-composition.mcp-client.js`
 - `examples/video-composition-mixed-stickers.mcp-client.js`

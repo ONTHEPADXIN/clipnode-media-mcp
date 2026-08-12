@@ -4,7 +4,7 @@
 
 ClipNode Media MCP 是 ClipNode Android App 本地媒体服务的 MCP 桥接项目，可以让支持 MCP 的 AI 客户端调用手机上的视频、GIF、图片和 HLS 媒体处理能力。
 
-通过这个 MCP bridge，AI 客户端可以浏览手机素材、上传电脑文件、选择模板和效果、校验编辑方案、创建本地导出任务、查询进度，并把最终结果下载回电脑。
+通过这个 MCP bridge，AI 客户端可以浏览手机素材、上传电脑文件、选择模板和效果、校验编辑方案、创建本地导出任务、查询进度，并把最终结果下载回电脑。当你已经在 ClipNode 会话编辑页处理一个草稿时，同一个桥接层也可以读取当前编辑态，并用结构化 patch 让 AI 介入当前编辑。
 
 ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
@@ -33,6 +33,7 @@ ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 - 支持文字、图片、GIF 贴纸；文字贴纸可设置颜色、字号、粗斜体、描边、发光、背景、内边距、时间范围、网格和入场/循环/出场动画。
 - 支持电脑和 Android 设备之间的本地文件上传下载。
 - 创建导出前支持 dry-run 校验，返回可读计划摘要、风险提示和 suggested fix。
+- 支持当前会话草稿的 AI patch 编辑：读取当前状态、校验 patch、应用 patch、AI undo/redo。
 
 ## 工作方式
 
@@ -83,6 +84,15 @@ clipnode_media_get_capabilities
 AI 客户端 -> MCP server -> ClipNode App 本地服务
 ```
 
+如果要让 AI 介入当前会话编辑页，先在 Android App 打开一个媒体编辑会话，再让 AI 客户端调用：
+
+```text
+clipnode_edit_get_current_state
+```
+
+AI 应使用返回的 `editableIndex` 获取已有对象 id，每次 patch 携带 `baseRevision`，新增对象后读取返回的 `idMap`。
+普通定位读取建议传 `compact=true`。当前 action patch 可新增文本、图片或 GIF 贴纸。图片/GIF 贴纸、画布背景、外部音频和素材源路径不确定时，先用 `clipnode_media_validate_app_path` 校验。GIF 贴纸再用 `includeFrameTimeline=true` 探测，并携带 App 可读 `.gif` 路径和 `gif.frameTimeList` 应用。
+
 ## 客户端接入
 
 不同客户端的专属文件放在 `integrations/` 下。共用 MCP 实现仍然放在 `scripts/`、`lib/` 和 `assets/`，发布压缩包时再把这些共用文件复制进每个客户端包。
@@ -120,6 +130,7 @@ dist/clipnode-media-mcp-codex.zip
 - “把这个 GIF 倒放、裁成正方形、降低帧率，并加底部文字水印。”
 - “把 9 张截图拼成 3x3 图片，透明背景，间距 12 像素。”
 - “把这个 m3u8 链接转成 MP4，完成后下载到电脑。”
+- “我现在就在 ClipNode 编辑页。给当前草稿底部加一个加粗发光标题，预览一下，并保持可继续编辑。”
 
 更多示例见 [docs/ai-prompts.md](docs/ai-prompts.md)。
 

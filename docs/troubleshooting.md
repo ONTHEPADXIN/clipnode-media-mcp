@@ -12,6 +12,18 @@ Use this guide when ClipNode Media MCP cannot connect, list media, create tasks,
 6. Node.js is installed and the MCP client points to the absolute path of `scripts/clipnode-media-mcp-server.js`.
 7. The app has media permissions for the files you want to browse or process.
 
+## Auth Reuse
+
+The MCP server should not call `/auth/pin` before every tool request. It reuses the auth cookie in memory and, by default, stores a short-lived local auth cache keyed by base URL and PIN hash. A new auth request is expected only when:
+
+- the MCP process has no usable cached cookie;
+- the app restarted or cleared auth sessions;
+- the cookie expired;
+- the phone IP/base URL or PIN changed;
+- the app returns 401 and the MCP server refreshes once.
+
+Set `CLIPNODE_AUTH_CACHE=0` in the MCP server env to disable local auth cache while debugging. Set `CLIPNODE_AUTH_CACHE_FILE=/path/to/auth-cache.json` to inspect or relocate the cache.
+
 ## Connection Problems
 
 ### `baseUrl is required` or empty capabilities

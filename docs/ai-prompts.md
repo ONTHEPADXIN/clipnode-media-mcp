@@ -8,6 +8,12 @@ The AI client should turn these prompts into the standard workflow:
 capabilities -> source discovery/upload -> probe -> validate -> create -> poll -> download
 ```
 
+When the user says they are already on the ClipNode edit/session page, the AI client should use the interactive patch workflow instead:
+
+```text
+edit_get_current_state -> validate_patch -> apply_patch
+```
+
 ## Album And Memory Videos
 
 ```text
@@ -120,6 +126,24 @@ Convert this m3u8 link to MP4 and download it to my computer. If the link or net
 
 ```text
 Export this HLS URL as a stable MP4 file. Track progress and download the result after success.
+```
+
+## Interactive Session Editing
+
+```text
+I am already on the ClipNode edit page. Read the current draft and add a large bold title near the bottom. Use white text, black stroke, and a soft yellow glow. Validate first, then apply it.
+```
+
+```text
+Look at the current ClipNode edit session and move the existing title sticker a little lower. Use only ids from the editable index.
+```
+
+```text
+Undo the last AI change in the current ClipNode edit session.
+```
+
+```text
+Read the current edit state, explain which sticker ids are editable, then change the selected text sticker to a larger font with glow.
 ```
 
 ## Troubleshooting Prompts

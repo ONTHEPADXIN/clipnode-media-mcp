@@ -1,7 +1,7 @@
 {
   "name": "clipnode-media-mcp",
   "version": "0.1.0",
-  "description": "MCP bridge for ClipNode local media edit service.",
+  "description": "MCP bridge for ClipNode local media export and interactive session editing.",
   "private": true,
   "scripts": {
     "package:codex": "node scripts/package-codex-plugin.js"
