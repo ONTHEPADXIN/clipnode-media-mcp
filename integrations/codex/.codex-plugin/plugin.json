@@ -1,6 +1,6 @@
 {
   "name": "clipnode-media-mcp",
-  "version": "0.1.0+codex.20260803123422",
+  "version": "0.1.0+codex.20260812123635",
   "description": "MCP bridge for ClipNode local media export and interactive session editing.",
   "homepage": "https://github.com/ONTHEPADXIN/clipnode-media-mcp",
   "repository": "https://github.com/ONTHEPADXIN/clipnode-media-mcp",
