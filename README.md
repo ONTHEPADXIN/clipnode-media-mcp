@@ -90,7 +90,7 @@ For live session editing, open a media edit session in the Android app first, th
 clipnode_edit_get_current_state
 ```
 
-The AI should use the returned `editableIndex` for existing object ids, send `baseRevision` with each patch, and read `idMap` after adding new objects.
+The AI should use the returned `editableIndex` for existing object ids, send `baseRevision` with each patch, and read `idMap` after adding new objects. The current-state response also includes `lastPatch`, which mirrors the latest patch result with `runtimeVerifiedSections`, `pendingSections`, and changed object/section summaries.
 For section edits, read `patchGrammar.sectionCapabilities` first to see validator/projector/verifier coverage, then choose fields from `patchGrammar.sectionPatchFields`. Some sections are state-runtime backed rather than timeline-backed; check `stateProjector`, `stateVerifier`, `completeForSessionState`, and `runtimeCoverage`.
 Use `compact=true` for normal targeting reads. Current action patches can add text, image, or GIF stickers. For image/GIF stickers, canvas backgrounds, external audio, and source paths, use `clipnode_media_validate_app_path` when the path is uncertain. GIF stickers should then be probed with `includeFrameTimeline=true` and applied with an App-readable `.gif` path plus `gif.frameTimeList`.
 In `image_compose`, use `sectionPatch/imageCompose` for layout/output fields or complete source-list replacement. For one image slot add/replace/delete/reorder/crop/rotate/flip, prefer `objectPatch` with `collection=imageComposeSources`; existing ids come from `editableIndex`, and source-list replacement must keep 2-16 unique App-readable images.

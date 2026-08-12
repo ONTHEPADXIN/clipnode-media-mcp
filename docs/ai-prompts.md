@@ -14,6 +14,24 @@ When the user says they are already on the ClipNode edit/session page, the AI cl
 edit_get_current_state -> validate_patch -> apply_patch
 ```
 
+For interactive patching, the AI should not guess from memory. It should read the current state, inspect `patchGrammar.modeRules`, then choose:
+
+- `sectionPatch` for top-level section changes
+- `objectPatch` for existing objects from `editableIndex`
+- `actionPatch` for adding new stickers or running named add actions
+
+Mode quick map:
+
+- `video_edit`: timeRange, canvas, fit, transform, audio, export, stickers
+- `video_compress`: timeRange, audio, export
+- `video_composition`: compositionSegments, compositionTransitions, canvas, audio, export, stickers
+- `image_edit`: canvas, fit, transform, export, stickers
+- `image_compose`: imageCompose, export, imageComposeSources
+- `gif_edit`: timeRange, canvas, fit, transform, gif, export, stickers
+- `video_to_gif`: timeRange, fit, transform, gif, export, stickers
+
+If the active mode does not expose a section/collection/action, do not use it. Re-read the current state or switch to the headless task flow.
+
 ## Album And Memory Videos
 
 ```text

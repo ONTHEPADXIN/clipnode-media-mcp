@@ -90,7 +90,7 @@ AI 客户端 -> MCP server -> ClipNode App 本地服务
 clipnode_edit_get_current_state
 ```
 
-AI 应使用返回的 `editableIndex` 获取已有对象 id，每次 patch 携带 `baseRevision`，新增对象后读取返回的 `idMap`。
+AI 应使用返回的 `editableIndex` 获取已有对象 id，每次 patch 携带 `baseRevision`，新增对象后读取返回的 `idMap`。当前状态里还会返回 `lastPatch`，用于直接查看最近一次 patch 的 `runtimeVerifiedSections`、`pendingSections` 和变更摘要。
 普通定位读取建议传 `compact=true`。当前 action patch 可新增文本、图片或 GIF 贴纸。图片/GIF 贴纸、画布背景、外部音频和素材源路径不确定时，先用 `clipnode_media_validate_app_path` 校验。GIF 贴纸再用 `includeFrameTimeline=true` 探测，并携带 App 可读 `.gif` 路径和 `gif.frameTimeList` 应用。
 
 ## 客户端接入

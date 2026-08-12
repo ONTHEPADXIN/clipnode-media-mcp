@@ -77,6 +77,33 @@ clipnode_edit_get_current_state
 
 If `clipnode_edit_apply_patch` returns `revision_conflict`, call `clipnode_edit_get_current_state` again and rebuild the patch against the latest revision.
 
+## AI Patch Decision Order
+
+When the user asks AI to edit the current ClipNode draft, follow this order:
+
+1. Read `clipnode_edit_get_current_state`.
+2. Read `patchGrammar.modeRules`, `patchGrammar.sectionCapabilities`, and `editableIndex`.
+3. Decide whether the request is a section edit, object edit, or action patch.
+4. Use only sections/actions/collections exposed by the current mode rules.
+5. Use only ids from `editableIndex` for existing objects.
+6. Use `clientTempId` for new objects and read `idMap` after apply.
+7. Validate first when ids, paths, or field coverage are uncertain.
+8. Apply the patch.
+9. Read `current_state` again and check `lastPatch`, `pendingSections`, and `runtimeVerifiedSections`.
+10. If the result is unstable or conflicting, rebuild from the latest state instead of guessing.
+
+Mode intent shortcuts:
+
+- `video_edit`: change one video draft, canvas, fit, transform, audio, export, or stickers.
+- `video_compress`: treat as a size/export profile on a single video draft.
+- `video_composition`: use segment/transition patches for multi-source timelines.
+- `image_edit`: use canvas, fit, transform, export, or stickers.
+- `image_compose`: use layout/output patches and `imageComposeSources` object patches.
+- `gif_edit`: use trim/reverse/crop/fit/export/stickers on one GIF.
+- `video_to_gif`: use video trim/export into GIF, then add stickers if needed.
+
+If the requested edit does not clearly fit the active mode, do not invent a patch. Read the current state again or choose another tool path.
+
 ## Token-Saving Rules
 
 AI clients should keep media workflows path-based and summary-based:
@@ -133,10 +160,10 @@ Use these tools when the user is already editing a draft in the ClipNode media-s
 
 | Tool | Purpose |
 |---|---|
-| `clipnode_edit_get_current_state` | Read the active edit session, current revision, selectedContext, editableIndex, and patchGrammar. `patchGrammar.modeRules` scopes allowed patches to the active edit mode. Pass `compact=true` for a smaller stateSummary; omit it when full state/stateJson is needed. |
+| `clipnode_edit_get_current_state` | Read the active edit session, current revision, selectedContext, editableIndex, patchGrammar, and `lastPatch`. `patchGrammar.modeRules` scopes allowed patches to the active edit mode. Pass `compact=true` for a smaller stateSummary; omit it when full state/stateJson is needed. |
 | `clipnode_edit_list_history` | List AI-applied patch history and redo count for the active edit session. |
-| `clipnode_edit_validate_patch` | Dry-run a patch without mutating the draft. |
-| `clipnode_edit_apply_patch` | Apply a patch to the active draft, update UI/preview/draft, and return the new revision plus idMap. |
+| `clipnode_edit_validate_patch` | Dry-run a patch without mutating the draft. Returns the same structured patch result shape as apply, including `runtimeVerifiedSections` and `pendingSections` when relevant. |
+| `clipnode_edit_apply_patch` | Apply a patch to the active draft, update UI/preview/draft, and return the new revision plus `idMap`, `changedObjects`, `changedSections`, `runtimeVerifiedSections`, and `pendingSections`. |
 | `clipnode_edit_undo` | Undo the latest AI-applied patch in the bridge history. |
 | `clipnode_edit_redo` | Redo the latest undone AI-applied patch. |
 | `clipnode_edit_validate_export` | Optional read-only preflight. Validate whether the active live draft can be exported now and return readiness, a live-session export plan, and `exportStatus` without starting export. |
@@ -223,6 +250,18 @@ Use `clipnode_media_get_sticker_capabilities` and `clipnode_media_list_sticker_a
 ## Interactive Patch Contract
 
 Interactive edit patches are intentionally small and rule-based. The MCP plugin exposes the tools; the Android app owns validation, normalization, id generation, preview updates, draft saving, and undo/redo history.
+
+Mode matrix:
+
+| Mode | Primary patch focus | Avoid guessing |
+|---|---|---|
+| `video_edit` | `timeRange`, `canvas`, `fit`, `transform`, `audio`, `export`, `stickers` | multi-source segment/transition edits |
+| `video_compress` | `timeRange`, `audio`, `export` | complex layout or extra object collections |
+| `video_composition` | `compositionSegments`, `compositionTransitions`, `canvas`, `audio`, `export`, `stickers` | sticker-only edits when a segment/transition change is requested |
+| `image_edit` | `canvas`, `fit`, `transform`, `export`, `stickers` | video composition collections |
+| `image_compose` | `imageCompose`, `export`, `imageComposeSources` | sticker patches |
+| `gif_edit` | `timeRange`, `canvas`, `fit`, `transform`, `gif`, `export`, `stickers` | video composition collections |
+| `video_to_gif` | `timeRange`, `fit`, `transform`, `gif`, `export`, `stickers` | video composition collections |
 
 Mode rules:
 
