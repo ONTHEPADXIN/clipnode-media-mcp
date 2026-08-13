@@ -17,9 +17,16 @@ Recommended order:
 | Domain | What It Covers | Start Here |
 |---|---|---|
 | Overview | What ClipNode Media MCP is, how the bridge works, and where the plugin fits. | [README.md](../README.md) |
+| Entry choice | Shortest first-read page for the three main entry situations. | [entry-choice.md](entry-choice.md) |
+| AI execution | Hard routing for current session edit, new export task, and source selection. | [ai-execution.md](ai-execution.md) |
 | Capability surface | Task types, tool groups, workflow rules, mode matrix, patch grammar, and validation rules. | [capabilities.md](capabilities.md) |
 | Natural-language usage | Copy-ready prompts grouped by goal and media type. | [ai-prompts.md](ai-prompts.md) |
 | Patch examples | Patch cookbook with common section/object/action patterns. | [patch-examples.md](patch-examples.md) |
+| Live-session core | Fastest entry for current-session editing, state reading priority, and patch choice. | [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md) |
+| Object edit matrix | Collection-by-collection summary of allowed ops, ids, required fields, and failure points. | [patch-examples-object-edit-matrix.md](patch-examples-object-edit-matrix.md) |
+| Validation results | How to read suggestedFix, needConfirmation, revision_conflict, and pendingSections. | [capabilities-validation-results.md](capabilities-validation-results.md) |
+| Showcase recipes | Sanitized end-to-end examples that generated app showcase outputs. | [showcase-recipes.md](showcase-recipes.md) |
+| Knowledge architecture | Documentation and indexing plan for scaling AI-readable capability docs. | [../../docs/ClipNode_MCP文档架构规划.md](../../docs/ClipNode_MCP文档架构规划.md) |
 | Visual showcase | Example outputs and transition references. | [showcase.md](showcase.md) |
 | Troubleshooting | Connection, auth, permissions, upload/download, and export failures. | [troubleshooting.md](troubleshooting.md) |
 | Privacy and local service | Local network model, auth, and safety guidance. | [privacy-and-local-service.md](privacy-and-local-service.md) |
@@ -31,14 +38,19 @@ Recommended order:
 
 Read:
 
+- `docs/entry-choice.md`
+- `docs/ai-execution.md`
 - `README.md`
 - `docs/knowledge-map.md`
 - `docs/capabilities.md` top sections
+- `docs/showcase-recipes.md` if you want real end-to-end examples
 
 ### I want to ask AI for a task
 
 Read:
 
+- `docs/entry-choice.md`
+- `docs/ai-execution.md`
 - `docs/knowledge-map.md`
 - `docs/ai-prompts.md`
 - the relevant branch inside `docs/capabilities.md`
@@ -47,15 +59,22 @@ Read:
 
 Read:
 
+- `docs/entry-choice.md`
+- `docs/ai-execution.md`
 - `docs/knowledge-map.md`
+- `docs/capabilities-live-session-patching-core.md`
 - `docs/capabilities.md`
 - `docs/patch-examples.md`
-- especially `Interactive Session Editing`, `Interactive Patch Contract`, `Id rules`, and `Validation Contract`
+- `docs/patch-examples-object-edit-matrix.md`
+- `docs/capabilities-validation-results.md`
+- then the detailed branch pages for the exact collection or section
 
 ### I want to debug a broken connection or failed export
 
 Read:
 
+- `docs/entry-choice.md`
+- `docs/ai-execution.md`
 - `docs/knowledge-map.md`
 - `docs/troubleshooting.md`
 - `docs/privacy-and-local-service.md`
@@ -75,7 +94,7 @@ These cover headless export flows such as:
 - `image_compose`
 - `hls_mp4_export`
 
-Start in [capabilities.md](capabilities.md), then move to [ai-prompts.md](ai-prompts.md) for examples.
+Start in [capabilities-task-workflows.md](capabilities-task-workflows.md), then move to [ai-prompts-task-workflows.md](ai-prompts-task-workflows.md) for examples.
 
 ### Live Session Patching
 
@@ -88,8 +107,8 @@ These cover the currently open ClipNode edit page:
 - applying patches
 - handling `idMap`, `baseRevision`, undo, and redo
 
-Start in [capabilities.md](capabilities.md).
-Then read [patch-examples.md](patch-examples.md) for concrete request shapes.
+Start in [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md), then read [capabilities-live-session-patching.md](capabilities-live-session-patching.md).
+Then read [ai-prompts-live-session.md](ai-prompts-live-session.md), [patch-examples-object-edit-matrix.md](patch-examples-object-edit-matrix.md), and the relevant patch example branch for concrete request shapes.
 
 ### Media Discovery And Sources
 
@@ -101,7 +120,7 @@ These cover:
 - path validation
 - source probing
 
-Start in [capabilities.md](capabilities.md), then use the workflow examples in [ai-prompts.md](ai-prompts.md).
+Start in [capabilities-media-sources.md](capabilities-media-sources.md), then use the task prompts branch in [ai-prompts-task-workflows.md](ai-prompts-task-workflows.md) when the task needs a concrete source-driven request.
 
 ### Catalogs And Style Systems
 
@@ -112,7 +131,7 @@ These cover:
 - sticker animation catalog
 - built-in templates
 
-Start in [capabilities.md](capabilities.md) and use [showcase.md](showcase.md) for visual context.
+Start in [capabilities-catalogs-and-style-systems.md](capabilities-catalogs-and-style-systems.md) and use [showcase.md](showcase.md) for visual context.
 
 ### Patch Cookbook
 
@@ -122,12 +141,20 @@ This is the fastest route when the AI already knows the goal and only needs a co
 - sticker action examples
 - object patch examples
 - image-compose slot examples
-- video-composition source and transition examples
+- video-composition segment, transition, and canvas/export examples
 
-Start in [patch-examples.md](patch-examples.md), then open [capabilities.md](capabilities.md) for the rules behind the example.
+Start in [patch-examples.md](patch-examples.md), then open the exact example branch and the matching capability branch. For video composition, choose the segment, transition, or canvas/export page first.
+If you want one complete working flow, open [patch-examples-video-composition-recipe.md](patch-examples-video-composition-recipe.md).
+
+### Documentation Plan
+
+If you want to improve the docs structure itself, start here:
+
+- [../../docs/ClipNode_MCP文档架构规划.md](../../docs/ClipNode_MCP文档架构规划.md)
 
 ## Rule Of Thumb
 
 If the user request is small, load the branch only.
 If the user request crosses branches, load the map first, then the relevant branches.
 If the user only wants a summary, do not open the deep sections unless needed.
+If a new tool family is added later, extend this map with one new branch instead of expanding an unrelated page.

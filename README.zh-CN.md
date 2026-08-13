@@ -15,16 +15,27 @@ ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 
 重要：不要在沙箱命令里访问 ClipNode 本地服务。需要真实检查本地服务时，请使用沙箱外请求或者 MCP 工具。
 
-1. [docs/knowledge-map.md](docs/knowledge-map.md) - 总入口和阅读路径。
-2. [docs/capabilities.md](docs/capabilities.md) - 任务类型、模式、工具、patch 规则和 id 规则。
-3. [docs/patch-examples.md](docs/patch-examples.md) - 常见 patch 请求形状和样例库。
-4. [docs/ai-prompts.md](docs/ai-prompts.md) - 每种能力该怎么用自然语言去问 AI。
-5. [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) - 作品能力与视觉示例。
-6. [docs/troubleshooting.md](docs/troubleshooting.md) - 常见失败原因和恢复方式。
-7. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - 本地服务、PIN 和安全说明。
-8. [integrations/codex/README.md](integrations/codex/README.md) - Codex 打包与运行说明。
+最短决策表：
 
-如果是会话页里的 AI patch，最重要的入口仍然是 [docs/capabilities.md](docs/capabilities.md)。如果只是想先找方向，先从 [docs/knowledge-map.md](docs/knowledge-map.md) 读起。
+| 场景 | 先读 |
+|---|---|
+| 当前会话编辑 | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
+| 第一次做任务 | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.md) |
+| 找素材或 probe source | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.md) |
+
+1. [docs/entry-choice.md](docs/entry-choice.md) - 最短首读页。
+2. [docs/ai-execution.md](docs/ai-execution.md) - AI 执行层。
+3. [docs/knowledge-map.md](docs/knowledge-map.md) - 总入口和阅读路径。
+4. [docs/capabilities.md](docs/capabilities.md) - 能力索引和分支地图。
+5. [docs/patch-examples.md](docs/patch-examples.md) - patch 样例索引。
+6. [docs/ai-prompts.md](docs/ai-prompts.md) - prompts 索引。
+7. [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) - 作品能力与视觉示例。
+8. [docs/troubleshooting.md](docs/troubleshooting.md) - 常见失败原因和恢复方式。
+9. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - 本地服务、PIN 和安全说明。
+10. [integrations/codex/README.md](integrations/codex/README.md) - Codex 打包与运行说明。
+
+如果是会话页里的 AI patch，最快的入口是 [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md)，然后再读 [docs/capabilities.md](docs/capabilities.md) 和 [docs/patch-examples.md](docs/patch-examples.md)。如果只是想先找方向，先从 [docs/knowledge-map.md](docs/knowledge-map.md) 读起。
+后续如果新增了新的工具家族，优先扩展知识地图并新增同级分支，不要把不相关的页面越写越满。
 
 ## 目录
 
@@ -193,6 +204,8 @@ node examples/list-phone-media.mcp-client.js
 - `examples/hls-export.mcp-client.js`
 - `examples/video-compress.mcp-client.js`
 - `examples/video-edit-from-phone-list.mcp-client.js`
+- `examples/transition-showcase-recipes.mcp-client.js`
+- `examples/logo-overlay-showcase.mcp-client.js`
 - `examples/video-to-gif.mcp-client.js`
 - `examples/gif-stickers.mcp-client.js`
 - `examples/image-edit-title.mcp-client.js`

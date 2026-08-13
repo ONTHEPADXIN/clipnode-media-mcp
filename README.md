@@ -15,16 +15,27 @@ If you want the AI to understand the full capability surface quickly, point it t
 
 Important: do not try to access the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
 
-1. [docs/knowledge-map.md](docs/knowledge-map.md) - the entry map and reading paths.
-2. [docs/capabilities.md](docs/capabilities.md) - what tasks, modes, tools, and patch rules exist.
-3. [docs/patch-examples.md](docs/patch-examples.md) - common patch request shapes and cookbook examples.
-4. [docs/ai-prompts.md](docs/ai-prompts.md) - how to ask for each capability in natural language.
-5. [docs/showcase.md](docs/showcase.md) - visual examples of the app's output styles.
-6. [docs/troubleshooting.md](docs/troubleshooting.md) - what can fail and how to recover.
-7. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - local service, PIN, and safety rules.
-8. [integrations/codex/README.md](integrations/codex/README.md) - Codex packaging and runtime notes.
+Shortest decision table:
 
-For AI patching on the live edit page, the most important single entry is still [docs/capabilities.md](docs/capabilities.md). For broad navigation, start with [docs/knowledge-map.md](docs/knowledge-map.md).
+| Situation | Read first |
+|---|---|
+| Current session edit | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
+| First task flow | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.md) |
+| Find or probe source media | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.md) |
+
+1. [docs/entry-choice.md](docs/entry-choice.md) - the shortest first-read page.
+2. [docs/ai-execution.md](docs/ai-execution.md) - the AI execution layer.
+3. [docs/knowledge-map.md](docs/knowledge-map.md) - the entry map and reading paths.
+4. [docs/capabilities.md](docs/capabilities.md) - the capability index and branch map.
+5. [docs/patch-examples.md](docs/patch-examples.md) - the patch cookbook index.
+6. [docs/ai-prompts.md](docs/ai-prompts.md) - the prompt index.
+7. [docs/showcase.md](docs/showcase.md) - visual examples of the app's output styles.
+8. [docs/troubleshooting.md](docs/troubleshooting.md) - what can fail and how to recover.
+9. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - local service, PIN, and safety rules.
+10. [integrations/codex/README.md](integrations/codex/README.md) - Codex packaging and runtime notes.
+
+For AI patching on the live edit page, the fastest single entry is [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md), then [docs/capabilities.md](docs/capabilities.md) and [docs/patch-examples.md](docs/patch-examples.md). For broad navigation, start with [docs/knowledge-map.md](docs/knowledge-map.md).
+When new tool families are added later, extend the knowledge map and add a sibling branch instead of overloading an existing page.
 
 ## Contents
 
@@ -198,6 +209,8 @@ Useful examples:
 - `examples/hls-export.mcp-client.js`
 - `examples/video-compress.mcp-client.js`
 - `examples/video-edit-from-phone-list.mcp-client.js`
+- `examples/transition-showcase-recipes.mcp-client.js`
+- `examples/logo-overlay-showcase.mcp-client.js`
 - `examples/video-to-gif.mcp-client.js`
 - `examples/gif-stickers.mcp-client.js`
 - `examples/image-edit-title.mcp-client.js`
