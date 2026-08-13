@@ -18,13 +18,6 @@ const entriesToCopy = [
   "lib"
 ];
 
-const docsToCopy = [
-  "ai-prompts.md",
-  "capabilities.md",
-  "privacy-and-local-service.md",
-  "troubleshooting.md"
-];
-
 const scriptFiles = [
   "clipnode-media-mcp-server.js",
   "smoke-test-clipnode-task-flow.js"
@@ -77,6 +70,10 @@ function buildPackageDirectory() {
   fs.mkdirSync(docsDir, {
     recursive: true
   });
+  const docsToCopy = fs
+    .readdirSync(path.join(rootDir, "docs"))
+    .filter((docFile) => docFile.endsWith(".md"))
+    .sort();
   for (const docFile of docsToCopy) {
     copyEntry(path.join(rootDir, "docs", docFile), path.join(docsDir, docFile));
   }
