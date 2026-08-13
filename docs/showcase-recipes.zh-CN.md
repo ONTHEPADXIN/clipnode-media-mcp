@@ -176,6 +176,6 @@ configure -> beginTask -> upload logo -> probe source -> build request -> valida
 
 ## 下一页
 
-- [showcase.md](showcase.md)
-- [capabilities-task-workflows.md](capabilities-task-workflows.md)
-- [capabilities-media-sources.md](capabilities-media-sources.md)
+- [showcase.md](showcase.zh-CN.md)
+- [capabilities-task-workflows.md](capabilities-task-workflows.zh-CN.md)
+- [capabilities-media-sources.md](capabilities-media-sources.zh-CN.md)

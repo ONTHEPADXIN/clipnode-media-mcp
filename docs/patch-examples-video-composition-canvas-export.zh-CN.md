@@ -79,6 +79,6 @@
 
 ## 下一页
 
-- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.md)
-- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.md)
-- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md)
+- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.zh-CN.md)
+- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.zh-CN.md)
+- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.zh-CN.md)

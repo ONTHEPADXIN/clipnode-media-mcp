@@ -66,6 +66,6 @@
 
 ## 下一页
 
-- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md)
-- [capabilities-live-session-patching.md](capabilities-live-session-patching.md)
-- [capabilities-validation-and-rules.md](capabilities-validation-and-rules.md)
+- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.zh-CN.md)
+- [capabilities-live-session-patching.md](capabilities-live-session-patching.zh-CN.md)
+- [capabilities-validation-and-rules.md](capabilities-validation-and-rules.zh-CN.md)

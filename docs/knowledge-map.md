@@ -6,26 +6,30 @@ This document is the entry map for AI clients and power users. It helps a reader
 
 Recommended order:
 
-1. Read this map first.
-2. Read the branch that matches the current goal.
-3. Only open the detailed docs for that branch.
-4. Do not load every capability page unless you actually need cross-domain reasoning.
-5. Do not try to reach the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
+1. Read the two-tree overview first.
+2. Read this map next if you need the full branch layout.
+3. Read the branch that matches the current goal.
+4. Only open the detailed docs for that branch.
+5. Do not load every capability page unless you actually need cross-domain reasoning.
+6. Do not try to reach the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
 
 ## Capability Domains
 
 | Domain | What It Covers | Start Here |
 |---|---|---|
+| Two capability trees | The parallel headless and live-session trees, how to choose between them, and what each tree is for. | [capability-trees.md](capability-trees.md) |
 | Overview | What ClipNode Media MCP is, how the bridge works, and where the plugin fits. | [README.md](../README.md) |
 | Entry choice | Shortest first-read page for the three main entry situations. | [entry-choice.md](entry-choice.md) |
 | AI execution | Hard routing for current session edit, new export task, and source selection. | [ai-execution.md](ai-execution.md) |
-| Capability surface | Task types, tool groups, workflow rules, mode matrix, patch grammar, and validation rules. | [capabilities.md](capabilities.md) |
+| Task workflows | Main export-task branch for finished outputs. | [capabilities-task-workflows.md](capabilities-task-workflows.md) |
+| Media discovery and sources | Phone media, asset library, uploads/downloads, validation, and probe flow. | [capabilities-media-sources.md](capabilities-media-sources.md) |
+| Capability surface | Full task types, tool groups, workflow rules, mode matrix, patch grammar, and validation rules. | [capabilities.md](capabilities.md) |
 | Natural-language usage | Copy-ready prompts grouped by goal and media type. | [ai-prompts.md](ai-prompts.md) |
 | Patch examples | Patch cookbook with common section/object/action patterns. | [patch-examples.md](patch-examples.md) |
-| Live-session core | Fastest entry for current-session editing, state reading priority, and patch choice. | [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md) |
 | Object edit matrix | Collection-by-collection summary of allowed ops, ids, required fields, and failure points. | [patch-examples-object-edit-matrix.md](patch-examples-object-edit-matrix.md) |
 | Validation results | How to read suggestedFix, needConfirmation, revision_conflict, and pendingSections. | [capabilities-validation-results.md](capabilities-validation-results.md) |
 | Showcase recipes | Sanitized end-to-end examples that generated app showcase outputs. | [showcase-recipes.md](showcase-recipes.md) |
+| Live-session core | Fastest entry for current-session editing, state reading priority, and patch choice. | [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md) |
 | Knowledge architecture | Documentation and indexing plan for scaling AI-readable capability docs. | [../../docs/ClipNode_MCP文档架构规划.md](../../docs/ClipNode_MCP文档架构规划.md) |
 | Visual showcase | Example outputs and transition references. | [showcase.md](showcase.md) |
 | Troubleshooting | Connection, auth, permissions, upload/download, and export failures. | [troubleshooting.md](troubleshooting.md) |
@@ -38,8 +42,11 @@ Recommended order:
 
 Read:
 
+- `docs/capability-trees.md`
 - `docs/entry-choice.md`
 - `docs/ai-execution.md`
+- `docs/capabilities-task-workflows.md`
+- `docs/capabilities-media-sources.md`
 - `README.md`
 - `docs/knowledge-map.md`
 - `docs/capabilities.md` top sections
@@ -49,8 +56,11 @@ Read:
 
 Read:
 
+- `docs/capability-trees.md`
 - `docs/entry-choice.md`
 - `docs/ai-execution.md`
+- `docs/capabilities-task-workflows.md`
+- `docs/capabilities-media-sources.md` if the task needs sources
 - `docs/knowledge-map.md`
 - `docs/ai-prompts.md`
 - the relevant branch inside `docs/capabilities.md`
@@ -59,8 +69,10 @@ Read:
 
 Read:
 
+- `docs/capability-trees.md`
 - `docs/entry-choice.md`
 - `docs/ai-execution.md`
+- `docs/capabilities-task-workflows.md`
 - `docs/knowledge-map.md`
 - `docs/capabilities-live-session-patching-core.md`
 - `docs/capabilities.md`
@@ -73,6 +85,7 @@ Read:
 
 Read:
 
+- `docs/capability-trees.md`
 - `docs/entry-choice.md`
 - `docs/ai-execution.md`
 - `docs/knowledge-map.md`

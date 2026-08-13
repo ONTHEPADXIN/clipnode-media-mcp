@@ -4,14 +4,19 @@
 
 ClipNode Media MCP connects MCP-compatible AI clients to the ClipNode Android app, enabling local video, GIF, image, and HLS media workflows on your phone.
 
-With this MCP bridge, an AI client can browse phone media, upload source files, choose templates and effects, validate an edit plan, start a local export job, poll progress, and download the finished result back to the computer. When you are already editing in the ClipNode session page, the same bridge can also read the live draft and apply structured AI patches to the current edit.
+The plugin has two parallel capability trees:
+
+- Headless export tasks for request-driven creation, batchable recipes, and script-like finished outputs.
+- Live session patching for the currently open edit page, where AI can follow a person's live editing intent and also shape reusable settings that later feed headless exports.
+
+Both trees matter. Headless export tasks are the primary production flow, and live-session patching is the interactive design/edit flow that can feed the same future template and task system.
 
 ClipNode currently requires the Android app. Install it from Google Play:
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
 ## Read This First
 
-If you want the AI to understand the full capability surface quickly, point it to the knowledge map first, then follow the branch it recommends:
+If you want the AI to understand the full capability surface quickly, use the table below to pick the first branch.
 
 Important: do not try to access the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
 
@@ -19,22 +24,21 @@ Shortest decision table:
 
 | Situation | Read first |
 |---|---|
-| Current session edit | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
+| Need the two-tree overview | [docs/capability-trees.md](docs/capability-trees.md) |
 | First task flow | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.md) |
+| Current session edit | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
 | Find or probe source media | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.md) |
 
-1. [docs/entry-choice.md](docs/entry-choice.md) - the shortest first-read page.
-2. [docs/ai-execution.md](docs/ai-execution.md) - the AI execution layer.
-3. [docs/knowledge-map.md](docs/knowledge-map.md) - the entry map and reading paths.
-4. [docs/capabilities.md](docs/capabilities.md) - the capability index and branch map.
-5. [docs/patch-examples.md](docs/patch-examples.md) - the patch cookbook index.
-6. [docs/ai-prompts.md](docs/ai-prompts.md) - the prompt index.
-7. [docs/showcase.md](docs/showcase.md) - visual examples of the app's output styles.
-8. [docs/troubleshooting.md](docs/troubleshooting.md) - what can fail and how to recover.
-9. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - local service, PIN, and safety rules.
-10. [integrations/codex/README.md](integrations/codex/README.md) - Codex packaging and runtime notes.
+For a longer path, open [docs/entry-choice.md](docs/entry-choice.md) or [docs/ai-execution.md](docs/ai-execution.md), then follow the matching branch.
 
-For AI patching on the live edit page, the fastest single entry is [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md), then [docs/capabilities.md](docs/capabilities.md) and [docs/patch-examples.md](docs/patch-examples.md). For broad navigation, start with [docs/knowledge-map.md](docs/knowledge-map.md).
+For AI patching on the live edit page:
+
+1. Read [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md).
+2. Then read [docs/capabilities.md](docs/capabilities.md) and [docs/patch-examples.md](docs/patch-examples.md).
+3. If you are only looking for the right branch, start with [docs/knowledge-map.md](docs/knowledge-map.md).
+
+If you are doing finished-output creation, start with the headless tree first. If you are already in the edit page, use the live-session tree after that.
+
 When new tool families are added later, extend the knowledge map and add a sibling branch instead of overloading an existing page.
 
 ## Contents
@@ -56,11 +60,11 @@ When new tool families are added later, extend the knowledge map and add a sibli
 - Local Android rendering through the ClipNode app.
 - Stdio MCP server for Codex, Cursor, Claude Desktop, Claude Code, and other MCP-compatible clients.
 - Video editing, video compression, video composition, GIF editing, video-to-GIF, image editing, image composition, and m3u8/HLS to MP4 export.
+- Local file upload/download between the computer and the Android device.
+- Dry-run validation before export, with readable plan summaries, risk hints, and suggested fixes.
 - 100+ built-in GL video transition effects, including fade, wipe, zoom, 3D page/book flip, cube, mosaic, glitch, light/color effects, and shape masks.
 - GIF editing with transparency/alpha support.
 - Text, image, and GIF stickers, including text styles, stroke, glow, background, padding, timing, grid layout, and enter/loop/exit animations.
-- Local file upload/download between the computer and the Android device.
-- Dry-run validation before export, with readable plan summaries, risk hints, and suggested fixes.
 - Interactive AI patching for the currently open media-session draft, including current-state export, patch validation/apply, and AI undo/redo.
 
 ## How It Works
@@ -81,7 +85,7 @@ The MCP server is a bridge. It does not replace the Android app, and it does not
 2. In ClipNode, start the local service or open the AI task center.
 3. Make sure the phone and computer are on the same trusted local network.
 4. Copy the local service URL and PIN shown in the app.
-5. Configure your MCP client with this server:
+5. If your AI client can talk to the MCP server directly, you can give it the local service URL and PIN first and let it configure itself. Otherwise, configure your MCP client with this server:
 
 ```json
 {

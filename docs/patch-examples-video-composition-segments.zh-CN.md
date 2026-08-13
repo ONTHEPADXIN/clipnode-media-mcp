@@ -165,7 +165,7 @@
 
 ## 下一页
 
-- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.md)
-- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.md)
-- [patch-examples-video-composition-recipe.md](patch-examples-video-composition-recipe.md)
-- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md)
+- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.zh-CN.md)
+- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.zh-CN.md)
+- [patch-examples-video-composition-recipe.md](patch-examples-video-composition-recipe.zh-CN.md)
+- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.zh-CN.md)

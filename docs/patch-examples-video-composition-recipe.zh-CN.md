@@ -84,6 +84,6 @@
 
 ## 下一页
 
-- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.md)
-- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.md)
-- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.md)
+- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.zh-CN.md)
+- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.zh-CN.md)
+- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.zh-CN.md)

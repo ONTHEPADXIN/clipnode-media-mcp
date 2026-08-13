@@ -4,14 +4,19 @@
 
 ClipNode Media MCP 是 ClipNode Android App 本地媒体服务的 MCP 桥接项目，可以让支持 MCP 的 AI 客户端调用手机上的视频、GIF、图片和 HLS 媒体处理能力。
 
-通过这个 MCP bridge，AI 客户端可以浏览手机素材、上传电脑文件、选择模板和效果、校验编辑方案、创建本地导出任务、查询进度，并把最终结果下载回电脑。当你已经在 ClipNode 会话编辑页处理一个草稿时，同一个桥接层也可以读取当前编辑态，并用结构化 patch 让 AI 介入当前编辑。
+这个插件有两条并列的能力树：
+
+- Headless 导出任务：面向请求驱动的成品生成、可批量复用的配方和脚本化输出。
+- 会话 Patch：面向当前打开的编辑页，AI 既可以承接人的实时编辑意图，也可以沉淀后续能被 headless 复用的设置和模板。
+
+这两条树都重要。Headless 导出任务是主要的生产链路，会话 patch 是交互式设计/编辑链路，而且还能反向喂给后续的模板和任务系统。
 
 ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
 ## 先看这里
 
-如果你想让 AI 很快看懂完整能力面，建议先读知识地图，再按它推荐的分支去看：
+如果你想让 AI 很快看懂完整能力面，直接用下面的表格选第一跳。
 
 重要：不要在沙箱命令里访问 ClipNode 本地服务。需要真实检查本地服务时，请使用沙箱外请求或者 MCP 工具。
 
@@ -19,22 +24,21 @@ ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 
 | 场景 | 先读 |
 |---|---|
-| 当前会话编辑 | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
-| 第一次做任务 | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.md) |
-| 找素材或 probe source | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.md) |
+| 先看两条能力树 | [docs/capability-trees.zh-CN.md](docs/capability-trees.zh-CN.md) |
+| 第一次做任务 | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.zh-CN.md) |
+| 当前会话编辑 | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.zh-CN.md) |
+| 找素材或 probe source | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.zh-CN.md) |
 
-1. [docs/entry-choice.md](docs/entry-choice.md) - 最短首读页。
-2. [docs/ai-execution.md](docs/ai-execution.md) - AI 执行层。
-3. [docs/knowledge-map.md](docs/knowledge-map.md) - 总入口和阅读路径。
-4. [docs/capabilities.md](docs/capabilities.md) - 能力索引和分支地图。
-5. [docs/patch-examples.md](docs/patch-examples.md) - patch 样例索引。
-6. [docs/ai-prompts.md](docs/ai-prompts.md) - prompts 索引。
-7. [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) - 作品能力与视觉示例。
-8. [docs/troubleshooting.md](docs/troubleshooting.md) - 常见失败原因和恢复方式。
-9. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - 本地服务、PIN 和安全说明。
-10. [integrations/codex/README.md](integrations/codex/README.md) - Codex 打包与运行说明。
+如果还需要更长的路径，先看 [docs/entry-choice.md](docs/entry-choice.zh-CN.md) 或 [docs/ai-execution.md](docs/ai-execution.zh-CN.md)，再进入目标分支。
 
-如果是会话页里的 AI patch，最快的入口是 [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md)，然后再读 [docs/capabilities.md](docs/capabilities.md) 和 [docs/patch-examples.md](docs/patch-examples.md)。如果只是想先找方向，先从 [docs/knowledge-map.md](docs/knowledge-map.md) 读起。
+如果是会话页里的 AI patch：
+
+1. 先读 [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.zh-CN.md)。
+2. 再读 [docs/capabilities.md](docs/capabilities.zh-CN.md) 和 [docs/patch-examples.md](docs/patch-examples.zh-CN.md)。
+3. 如果只是想先找方向，就先读 [docs/knowledge-map.md](docs/knowledge-map.md)。
+
+如果你是在做成品输出，先读 headless 树。如果你已经在编辑页，再走会话 patch 树。
+
 后续如果新增了新的工具家族，优先扩展知识地图并新增同级分支，不要把不相关的页面越写越满。
 
 ## 目录
@@ -56,11 +60,11 @@ ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 - 由 ClipNode Android App 在手机本地完成真实渲染和导出。
 - 提供 stdio MCP server，支持 Codex、Cursor、Claude Desktop、Claude Code 以及其他 MCP 兼容客户端。
 - 支持视频编辑、视频压缩、视频合成、GIF 编辑、视频转 GIF、图片编辑、图片合成和 m3u8/HLS 转 MP4。
+- 支持电脑和 Android 设备之间的本地文件上传下载。
+- 创建导出前支持 dry-run 校验，返回可读计划摘要、风险提示和 suggested fix。
 - 内置上百种 GL 视频转场动画，覆盖淡入淡出、擦除、缩放、3D 翻页/翻书、立方体、马赛克、故障、光效、形状遮罩等风格。
 - GIF 编辑支持透明度/alpha 工作流。
 - 支持文字、图片、GIF 贴纸；文字贴纸可设置颜色、字号、粗斜体、描边、发光、背景、内边距、时间范围、网格和入场/循环/出场动画。
-- 支持电脑和 Android 设备之间的本地文件上传下载。
-- 创建导出前支持 dry-run 校验，返回可读计划摘要、风险提示和 suggested fix。
 - 支持当前会话草稿的 AI patch 编辑：读取当前状态、校验 patch、应用 patch、AI undo/redo。
 
 ## 工作方式
@@ -81,7 +85,7 @@ MCP server 只是桥接层，不替代 Android App，也不在电脑端渲染媒
 2. 在 ClipNode 中启动本地服务，或打开 AI 任务中心。
 3. 确认手机和电脑在同一个可信局域网内。
 4. 复制 App 显示的本地服务 URL 和 PIN。
-5. 在 MCP 客户端中配置服务：
+5. 如果你的 AI 客户端可以直接和 MCP server 对话，可以先把本地服务 URL 和 PIN 直接发给 AI，让它自己先配置；否则再在 MCP 客户端中手动配置服务：
 
 ```json
 {
@@ -160,14 +164,14 @@ dist/clipnode-media-mcp-codex.zip
 - “把这个 m3u8 链接转成 MP4，完成后下载到电脑。”
 - “我现在就在 ClipNode 编辑页。给当前草稿底部加一个加粗发光标题，预览一下，并保持可继续编辑。”
 
-更多示例见 [docs/ai-prompts.md](docs/ai-prompts.md)。
+更多示例见 [docs/ai-prompts.md](docs/ai-prompts.zh-CN.md)。
 
 ## 文档
 
 | 文件 | 作用 |
 |---|---|
-| [docs/capabilities.md](docs/capabilities.md) | AI 最优先阅读的能力总览，包含工作流、任务类型、patch grammar、模式规则和 id 处理。 |
-| [docs/ai-prompts.md](docs/ai-prompts.md) | 可直接复制给 AI 客户端的示例提示词。 |
+| [docs/capabilities.md](docs/capabilities.zh-CN.md) | AI 最优先阅读的能力总览，包含工作流、任务类型、patch grammar、模式规则和 id 处理。 |
+| [docs/ai-prompts.md](docs/ai-prompts.zh-CN.md) | 可直接复制给 AI 客户端的示例提示词。 |
 | [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) | App 能力展示页，目前从转场演示开始，后续可扩展更多作品能力。 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 连接失败、PIN、局域网、权限、上传下载和导出失败排查。 |
 | [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) | 本地服务、PIN、媒体访问、隐私和安全说明。 |

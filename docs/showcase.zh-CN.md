@@ -6,7 +6,7 @@
 
 ClipNode 内置了大量 GL 视频转场动画，可用于回忆视频、图片轮播、产品短片、社媒短视频和混合素材剪辑。下面用视频展示不同转场类别的视觉能力。
 
-App 里的转场展示视频就是由 [showcase-recipes.md](showcase-recipes.md) 里的展示脚本生成的。那一页还包含一个 logo 叠加加文字贴纸的完整样例。
+App 里的转场展示视频就是由 [showcase-recipes.md](showcase-recipes.zh-CN.md) 里的展示脚本生成的。那一页还包含一个 logo 叠加加文字贴纸的完整样例。
 
 点击任意 YouTube 链接即可观看演示。
 
@@ -32,7 +32,7 @@ App 里的转场展示视频就是由 [showcase-recipes.md](showcase-recipes.md)
 
 ## 展示 Recipe
 
-如果你想看 App 展示页背后的脚本形状，读 [showcase-recipes.md](showcase-recipes.md)。
+如果你想看 App 展示页背后的脚本形状，读 [showcase-recipes.md](showcase-recipes.zh-CN.md)。
 
 那一页包含两个脱敏后的完整样例：
 

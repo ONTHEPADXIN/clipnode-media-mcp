@@ -2,15 +2,17 @@
 
 [中文版本](ai-execution.zh-CN.md)
 
-This is the execution layer for AI clients. Use it after the entry-choice page.
+This is the execution layer for AI clients. Use it after the two-tree overview or the entry-choice page.
 
 ## Hard Routing
 
 | Situation | First action | Then read |
 |---|---|---|
-| Current session edit | Call `clipnode_edit_get_current_state` | `capabilities-live-session-patching-core.md` |
 | New export task | Call `clipnode_media_get_capabilities` | `capabilities-task-workflows.md` |
+| Current session edit | Call `clipnode_edit_get_current_state` | `capabilities-live-session-patching-core.md` |
 | Need source media | Call the phone/media-library selector tool | `capabilities-media-sources.md` |
+
+Treat the first two rows as parallel capability trees, not as a main path and a secondary path.
 
 ## Current Session Edit
 

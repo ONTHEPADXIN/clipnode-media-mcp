@@ -44,6 +44,6 @@
 
 ## 下一页
 
-- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.md)
-- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.md)
-- [capabilities-catalogs-and-style-systems.md](capabilities-catalogs-and-style-systems.md)
+- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.zh-CN.md)
+- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.zh-CN.md)
+- [capabilities-catalogs-and-style-systems.md](capabilities-catalogs-and-style-systems.zh-CN.md)

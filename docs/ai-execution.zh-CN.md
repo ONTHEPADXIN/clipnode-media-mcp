@@ -2,15 +2,17 @@
 
 [English version](ai-execution.md)
 
-这是给 AI 客户端用的执行层，先读入口选择页，再读这一页。
+这是给 AI 客户端用的执行层，先读两条能力树总览或入口选择页，再读这一页。
 
 ## 硬路由
 
 | 场景 | 先做什么 | 再读哪里 |
 |---|---|---|
-| 当前会话编辑 | 调 `clipnode_edit_get_current_state` | `capabilities-live-session-patching-core.md` |
 | 新建导出任务 | 调 `clipnode_media_get_capabilities` | `capabilities-task-workflows.md` |
+| 当前会话编辑 | 调 `clipnode_edit_get_current_state` | `capabilities-live-session-patching-core.md` |
 | 需要素材 | 先选手机素材/素材库来源 | `capabilities-media-sources.md` |
+
+把前两行当成并列能力树，不要理解成主次关系。
 
 ## 当前会话编辑
 
@@ -54,7 +56,7 @@
 
 ## 下一页
 
-- [entry-choice.md](entry-choice.md)
+- [entry-choice.md](entry-choice.zh-CN.md)
 - [knowledge-map.md](knowledge-map.md)
-- [capabilities.md](capabilities.md)
-- [patch-examples.md](patch-examples.md)
+- [capabilities.md](capabilities.zh-CN.md)
+- [patch-examples.md](patch-examples.zh-CN.md)

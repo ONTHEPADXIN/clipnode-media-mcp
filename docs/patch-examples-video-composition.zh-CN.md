@@ -6,9 +6,9 @@
 
 ## 请改读这些页面
 
-- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.md)
-- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.md)
-- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.md)
+- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.zh-CN.md)
+- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.zh-CN.md)
+- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.zh-CN.md)
 
 ## 什么时候还会用到这一页
 

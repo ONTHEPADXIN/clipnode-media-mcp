@@ -8,9 +8,9 @@
 
 | 分支 | 说明 | 从这里开始 |
 |---|---|---|
-| 任务 prompts | headless 媒体任务的自然语言示例。 | [ai-prompts-task-workflows.md](ai-prompts-task-workflows.md) |
-| 会话 patch prompts | 交互式会话 patch 的自然语言示例。 | [ai-prompts-live-session.md](ai-prompts-live-session.md) |
-| 排障 prompts | 调试和恢复的自然语言示例。 | [ai-prompts-troubleshooting.md](ai-prompts-troubleshooting.md) |
+| 任务 prompts | headless 媒体任务的自然语言示例。 | [ai-prompts-task-workflows.md](ai-prompts-task-workflows.zh-CN.md) |
+| 会话 patch prompts | 交互式会话 patch 的自然语言示例。 | [ai-prompts-live-session.md](ai-prompts-live-session.zh-CN.md) |
+| 排障 prompts | 调试和恢复的自然语言示例。 | [ai-prompts-troubleshooting.md](ai-prompts-troubleshooting.zh-CN.md) |
 
 ## 阅读顺序
 

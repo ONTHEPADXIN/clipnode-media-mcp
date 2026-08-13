@@ -35,9 +35,9 @@
 
 ## 下一页
 
-- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md)
-- [capabilities-live-session-patching.md](capabilities-live-session-patching.md)
-- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.md)
-- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.md)
-- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.md)
-- [capabilities-validation-results.md](capabilities-validation-results.md)
+- [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.zh-CN.md)
+- [capabilities-live-session-patching.md](capabilities-live-session-patching.zh-CN.md)
+- [patch-examples-video-composition-segments.md](patch-examples-video-composition-segments.zh-CN.md)
+- [patch-examples-video-composition-transitions.md](patch-examples-video-composition-transitions.zh-CN.md)
+- [patch-examples-video-composition-canvas-export.md](patch-examples-video-composition-canvas-export.zh-CN.md)
+- [capabilities-validation-results.md](capabilities-validation-results.zh-CN.md)

@@ -51,7 +51,7 @@
 
 ## 下一步读这里
 
-- [capabilities-live-session-patching.md](capabilities-live-session-patching.md)
-- [patch-examples.md](patch-examples.md)
-- [patch-examples-object-edit-matrix.md](patch-examples-object-edit-matrix.md)
-- [capabilities-validation-results.md](capabilities-validation-results.md)
+- [capabilities-live-session-patching.md](capabilities-live-session-patching.zh-CN.md)
+- [patch-examples.md](patch-examples.zh-CN.md)
+- [patch-examples-object-edit-matrix.md](patch-examples-object-edit-matrix.zh-CN.md)
+- [capabilities-validation-results.md](capabilities-validation-results.zh-CN.md)
