@@ -9,6 +9,23 @@ With this MCP bridge, an AI client can browse phone media, upload source files, 
 ClipNode currently requires the Android app. Install it from Google Play:
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
+## Read This First
+
+If you want the AI to understand the full capability surface quickly, point it to the knowledge map first, then follow the branch it recommends:
+
+Important: do not try to access the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
+
+1. [docs/knowledge-map.md](docs/knowledge-map.md) - the entry map and reading paths.
+2. [docs/capabilities.md](docs/capabilities.md) - what tasks, modes, tools, and patch rules exist.
+3. [docs/patch-examples.md](docs/patch-examples.md) - common patch request shapes and cookbook examples.
+4. [docs/ai-prompts.md](docs/ai-prompts.md) - how to ask for each capability in natural language.
+5. [docs/showcase.md](docs/showcase.md) - visual examples of the app's output styles.
+6. [docs/troubleshooting.md](docs/troubleshooting.md) - what can fail and how to recover.
+7. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - local service, PIN, and safety rules.
+8. [integrations/codex/README.md](integrations/codex/README.md) - Codex packaging and runtime notes.
+
+For AI patching on the live edit page, the most important single entry is still [docs/capabilities.md](docs/capabilities.md). For broad navigation, start with [docs/knowledge-map.md](docs/knowledge-map.md).
+
 ## Contents
 
 - [App Showcase](docs/showcase.md)
@@ -143,9 +160,9 @@ More examples are in [docs/ai-prompts.md](docs/ai-prompts.md).
 
 | File | Purpose |
 |---|---|
-| [docs/showcase.md](docs/showcase.md) | App capability showcase with visual examples, starting with transition demos. |
-| [docs/capabilities.md](docs/capabilities.md) | Supported workflows, tools, templates, catalogs, and AI workflow rules. |
+| [docs/capabilities.md](docs/capabilities.md) | Best starting point for AI. It explains supported workflows, task types, patch grammar, mode rules, and id handling. |
 | [docs/ai-prompts.md](docs/ai-prompts.md) | Copy-ready prompts users can give to an AI client. |
+| [docs/showcase.md](docs/showcase.md) | App capability showcase with visual examples, starting with transition demos. |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | Connection, PIN, local network, permission, upload/download, and export troubleshooting. |
 | [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) | Local service, PIN, media access, privacy, and security notes. |
 | [integrations/codex/README.md](integrations/codex/README.md) | Codex plugin packaging and usage notes. |

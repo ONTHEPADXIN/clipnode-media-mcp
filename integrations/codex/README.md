@@ -61,3 +61,4 @@ Update the generated `.mcp.json` or configure these environment variables in Cod
 Prefer the provided MCP tools over manual `curl` checks. Do not ask Codex to run `curl`, `wget`, or ad-hoc HTTP client scripts inside the sandbox to test `CLIPNODE_BASE_URL`, especially when the URL points to `127.0.0.1`, localhost, a LAN IP, an Android device, an emulator, or an ADB-forwarded port. Sandboxed network requests may be blocked or unable to see the host-local ClipNode service.
 
 If a real HTTP request is necessary for debugging, Codex should run it with `sandbox_permissions: "require_escalated"` and explain the endpoint, purpose, and expected effect.
+Do not use a sandboxed command to reach the local ClipNode service; use an out-of-sandbox request or the MCP tools instead.

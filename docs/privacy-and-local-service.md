@@ -17,6 +17,7 @@ AI client
 ```
 
 The local service is intended for trusted devices on the same local network.
+Do not expect a sandboxed command to reach the ClipNode local service. When a real check is needed, use an out-of-sandbox request or the MCP tools.
 
 ## What Data May Be Accessed
 

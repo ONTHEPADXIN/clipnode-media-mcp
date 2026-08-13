@@ -9,6 +9,23 @@ ClipNode Media MCP 是 ClipNode Android App 本地媒体服务的 MCP 桥接项�
 ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
+## 先看这里
+
+如果你想让 AI 很快看懂完整能力面，建议先读知识地图，再按它推荐的分支去看：
+
+重要：不要在沙箱命令里访问 ClipNode 本地服务。需要真实检查本地服务时，请使用沙箱外请求或者 MCP 工具。
+
+1. [docs/knowledge-map.md](docs/knowledge-map.md) - 总入口和阅读路径。
+2. [docs/capabilities.md](docs/capabilities.md) - 任务类型、模式、工具、patch 规则和 id 规则。
+3. [docs/patch-examples.md](docs/patch-examples.md) - 常见 patch 请求形状和样例库。
+4. [docs/ai-prompts.md](docs/ai-prompts.md) - 每种能力该怎么用自然语言去问 AI。
+5. [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) - 作品能力与视觉示例。
+6. [docs/troubleshooting.md](docs/troubleshooting.md) - 常见失败原因和恢复方式。
+7. [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) - 本地服务、PIN 和安全说明。
+8. [integrations/codex/README.md](integrations/codex/README.md) - Codex 打包与运行说明。
+
+如果是会话页里的 AI patch，最重要的入口仍然是 [docs/capabilities.md](docs/capabilities.md)。如果只是想先找方向，先从 [docs/knowledge-map.md](docs/knowledge-map.md) 读起。
+
 ## 目录
 
 - [App 作品展示](docs/showcase.zh-CN.md)
@@ -138,9 +155,9 @@ dist/clipnode-media-mcp-codex.zip
 
 | 文件 | 作用 |
 |---|---|
-| [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) | App 能力展示页，目前从转场演示开始，后续可扩展更多作品能力。 |
-| [docs/capabilities.md](docs/capabilities.md) | 支持的工作流、工具、模板、目录和 AI 流程规则。 |
+| [docs/capabilities.md](docs/capabilities.md) | AI 最优先阅读的能力总览，包含工作流、任务类型、patch grammar、模式规则和 id 处理。 |
 | [docs/ai-prompts.md](docs/ai-prompts.md) | 可直接复制给 AI 客户端的示例提示词。 |
+| [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) | App 能力展示页，目前从转场演示开始，后续可扩展更多作品能力。 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 连接失败、PIN、局域网、权限、上传下载和导出失败排查。 |
 | [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) | 本地服务、PIN、媒体访问、隐私和安全说明。 |
 | [integrations/codex/README.md](integrations/codex/README.md) | Codex 插件打包和使用说明。 |
