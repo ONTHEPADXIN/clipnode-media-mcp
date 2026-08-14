@@ -2,7 +2,9 @@
 
 [中文版本](capabilities-task-workflows.zh-CN.md)
 
-This branch covers headless media tasks that start from a request and end in validation, creation, polling, and download.
+This branch covers export task workflows that start from a request and end in validation, creation, polling, and download.
+
+Start with `clipnode_media_get_capabilities` for a short summary, then use the list/get catalog tools only when you need exact names.
 
 ## Supported Task Types
 

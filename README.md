@@ -6,17 +6,17 @@ ClipNode Media MCP connects MCP-compatible AI clients to the ClipNode Android ap
 
 The plugin has two parallel capability trees:
 
-- Headless export tasks for request-driven creation, batchable recipes, and script-like finished outputs.
-- Live session patching for the currently open edit page, where AI can follow a person's live editing intent and also shape reusable settings that later feed headless exports.
+- Export task workflows for request-driven creation, batchable recipes, and script-like finished outputs.
+- Live session patching for the currently open edit page, where AI can follow a person's live editing intent and also shape reusable settings that later feed export workflows.
 
-Both trees matter. Headless export tasks are the primary production flow, and live-session patching is the interactive design/edit flow that can feed the same future template and task system.
+Both trees matter. Export task workflows are the primary production flow, and live-session patching is the interactive design/edit flow that can feed the same future template and task system.
 
 ClipNode currently requires the Android app. Install it from Google Play:
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
 ## Read This First
 
-If you want the AI to understand the full capability surface quickly, use the table below to pick the first branch.
+If you want the AI to choose a path quickly, start with the scene-routing page.
 
 Important: do not try to access the ClipNode local service from a sandboxed command. Use an out-of-sandbox request or the MCP tools when a real local-service check is needed.
 
@@ -24,12 +24,11 @@ Shortest decision table:
 
 | Situation | Read first |
 |---|---|
+| Need the shortest path summary | [docs/scene-routing.md](docs/scene-routing.md) |
 | Need the two-tree overview | [docs/capability-trees.md](docs/capability-trees.md) |
-| First task flow | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.md) |
-| Current session edit | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.md) |
-| Find or probe source media | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.md) |
+| Need the full branch map | [docs/knowledge-map.md](docs/knowledge-map.md) |
 
-For a longer path, open [docs/entry-choice.md](docs/entry-choice.md) or [docs/ai-execution.md](docs/ai-execution.md), then follow the matching branch.
+For a longer path, open [docs/knowledge-map.md](docs/knowledge-map.md), then follow the matching branch.
 
 For AI patching on the live edit page:
 
@@ -37,7 +36,7 @@ For AI patching on the live edit page:
 2. Then read [docs/capabilities.md](docs/capabilities.md) and [docs/patch-examples.md](docs/patch-examples.md).
 3. If you are only looking for the right branch, start with [docs/knowledge-map.md](docs/knowledge-map.md).
 
-If you are doing finished-output creation, start with the headless tree first. If you are already in the edit page, use the live-session tree after that.
+If you are doing finished-output creation, start with the export-task tree first. If you are already in the edit page, use the live-session tree after that.
 
 When new tool families are added later, extend the knowledge map and add a sibling branch instead of overloading an existing page.
 
@@ -109,6 +108,18 @@ The MCP server is a bridge. It does not replace the Android app, and it does not
 ```text
 clipnode_media_get_capabilities
 ```
+
+It returns the main capability directory by default. Read that first to get the category ids.
+
+When the AI needs detail, pass one or more `categories` ids, for example:
+
+```json
+{
+  "categories": ["fileCapabilities", "transitionCatalog"]
+}
+```
+
+Use this to merge only the branches you need, instead of loading the whole catalog. Category ids come from the main directory.
 
 If capabilities are returned, the chain is working:
 

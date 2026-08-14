@@ -4,7 +4,7 @@
 
 ClipNode Media MCP has two parallel capability trees. The AI should pick one first, then only read the branch for that tree.
 
-## Tree 1: Headless Export Tasks
+## Tree 1: Export Task Workflows
 
 Use this tree for request-driven output creation.
 
@@ -13,7 +13,7 @@ Good fits:
 - fresh finished outputs
 - repeatable or batchable workflows
 - script-like export recipes
-- reusable examples that will later become headless jobs
+- reusable examples that will later become export tasks
 
 Typical flow:
 
@@ -41,7 +41,7 @@ Good fits:
 
 - changing the current draft on the edit page
 - letting AI follow a person's live editing intent
-- shaping reusable settings or templates that later feed headless exports
+- shaping reusable settings or templates that later feed export workflows
 - reading current state before choosing the smallest safe patch
 
 Typical flow:
@@ -83,6 +83,6 @@ Best-fit branches:
 
 ## Reading Rule
 
-If the user wants a new output, start with the headless tree.
+If the user wants a new output, start with the export-task tree.
 If the user is already on the edit page, start with the live-session tree.
 If the goal is unclear, read this page first, then branch once.

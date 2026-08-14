@@ -67,4 +67,4 @@ get_current_state
 
 只想看能不能导出时，用 `clipnode_edit_validate_export`。
 
-这个导出由 App 打开导出面板，不是 headless 任务流。
+这个导出由 App 打开导出面板，不是 任务式导出流程。

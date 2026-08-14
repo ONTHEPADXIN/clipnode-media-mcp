@@ -2,7 +2,9 @@
 
 [English version](capabilities-task-workflows.md)
 
-这一分支覆盖 headless 媒体任务，也就是从请求出发，到校验、创建、轮询、下载结束的整条链路。
+这一分支覆盖 任务式导出，也就是从请求出发，到校验、创建、轮询、下载结束的整条链路。
+
+先读 `clipnode_media_get_capabilities` 拿简短摘要，只有需要精确名字时才去查目录工具。
 
 ## 支持的任务类型
 

@@ -2,12 +2,16 @@
 
 这是 ClipNode Media MCP 的中文能力索引。
 
+把 `clipnode_media_get_capabilities` 当成主目录入口。需要某个分支的细节时，再传 `categories` 展开，并结合分支页和 list/get 目录工具看精确名字。
+
+`sourceRefTypes`、`canvasPresets`、`fitModes`、`exportPresets` 这类公共枚举放在同一个响应里的 `commonEnums` 中。
+
 这里有两条并列的能力树：
 
-- Headless 导出任务：面向请求驱动的成品生成。
+- 任务式导出：面向请求驱动的成品生成。
 - 会话 patch：面向当前编辑页和可复用模板的塑形。
 
-英文版见 [capabilities.md](capabilities.zh-CN.md)。
+英文版见 [capabilities.md](capabilities.md)。
 
 先读这个索引，再按当前目标进入对应分支，不要一上来加载整页细节。
 
@@ -15,7 +19,7 @@
 
 | 分支 | 说明 | 从这里开始 |
 |---|---|---|
-| 任务工作流 | headless 导出任务、支持的任务类型、默认流程和省 token 规则。 | [capabilities-task-workflows.md](capabilities-task-workflows.zh-CN.md) |
+| 任务工作流 | 任务式导出、支持的任务类型、默认流程和省 token 规则。 | [capabilities-task-workflows.md](capabilities-task-workflows.zh-CN.md) |
 | 会话 patch | 当前编辑页、patch 决策顺序、交互式会话流程和 live patch 行为。 | [capabilities-live-session-patching.md](capabilities-live-session-patching.zh-CN.md) |
 | 会话核心入口 | 当前状态快读、patch 选择和导出衔接的首读页。 | [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.zh-CN.md) |
 | 素材来源 | 手机素材、素材库、上传下载、source probe 和本地服务访问规则。 | [capabilities-media-sources.md](capabilities-media-sources.zh-CN.md) |

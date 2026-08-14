@@ -26,7 +26,7 @@ async function handleTool(name, args) {
   }
   await client.ensureAuth();
   if (name === "clipnode_media_get_capabilities") {
-    return client.requestJson("GET", "/media/capabilities", undefined, args || {}, name);
+    return client.requestJson("GET", withQuery("/media/capabilities", normalizeCapabilityQuery(args || {})), undefined, args || {}, name);
   }
   if (name === "clipnode_media_list_transitions") {
     return listTransitions(args || {}, name);
@@ -263,6 +263,30 @@ function normalizeAssetQuery(args) {
   return query;
 }
 
+function normalizeCapabilityQuery(args) {
+  const query = {};
+  const categories = normalizeCategories(args && args.categories);
+  if (categories.length > 0) {
+    query.categories = categories.join(",");
+  }
+  return query;
+}
+
+function normalizeCategories(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => String(item || "").trim())
+      .filter((item) => item.length > 0);
+  }
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  }
+  return [];
+}
+
 function normalizeEditSessionRequest(args) {
   return {
     sessionId: args.sessionId || "current"
@@ -387,7 +411,7 @@ function clampNumber(value, fallback, min, max) {
 }
 
 async function listTransitions(args, toolName) {
-  const capabilities = await client.requestJson("GET", "/media/capabilities", undefined, args || {}, toolName);
+  const capabilities = await client.requestJson("GET", withQuery("/media/capabilities", { categories: "transitionCatalog" }), undefined, args || {}, toolName);
   const catalog = capabilities.transitionCatalog || {};
   const filtered = filterCatalogItems(catalog.items || [], args || {}, {
     includeAutoSelectable: true,
@@ -411,7 +435,7 @@ async function getTransition(args, toolName) {
   if (!assetPath && !id) {
     throw new Error("assetPath or id is required");
   }
-  const capabilities = await client.requestJson("GET", "/media/capabilities", undefined, args || {}, toolName);
+  const capabilities = await client.requestJson("GET", withQuery("/media/capabilities", { categories: "transitionCatalog" }), undefined, args || {}, toolName);
   const catalog = capabilities.transitionCatalog || {};
   const items = Array.isArray(catalog.items) ? catalog.items : [];
   const item = items.find((candidate) => {
@@ -434,7 +458,7 @@ async function getTransition(args, toolName) {
 }
 
 async function getStickerCapabilities(args, toolName) {
-  const capabilities = await client.requestJson("GET", "/media/capabilities", undefined, args || {}, toolName);
+  const capabilities = await client.requestJson("GET", withQuery("/media/capabilities", { categories: "assetCapabilities" }), undefined, args || {}, toolName);
   const stickerCapabilities = capabilities.assetCapabilities?.stickerCapabilities || {};
   return {
     ok: true,
@@ -443,7 +467,7 @@ async function getStickerCapabilities(args, toolName) {
 }
 
 async function listStickerAnimations(args, toolName) {
-  const capabilities = await client.requestJson("GET", "/media/capabilities", undefined, args || {}, toolName);
+  const capabilities = await client.requestJson("GET", withQuery("/media/capabilities", { categories: "assetCapabilities" }), undefined, args || {}, toolName);
   const stickerCapabilities = capabilities.assetCapabilities?.stickerCapabilities || {};
   const catalog = Array.isArray(stickerCapabilities.animationCatalog)
     ? stickerCapabilities.animationCatalog

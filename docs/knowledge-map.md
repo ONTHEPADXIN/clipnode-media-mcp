@@ -6,8 +6,8 @@ This document is the entry map for AI clients and power users. It helps a reader
 
 Recommended order:
 
-1. Read the two-tree overview first.
-2. Read this map next if you need the full branch layout.
+1. Read scene routing first.
+2. Read this map only when you need the full branch layout.
 3. Read the branch that matches the current goal.
 4. Only open the detailed docs for that branch.
 5. Do not load every capability page unless you actually need cross-domain reasoning.
@@ -17,10 +17,9 @@ Recommended order:
 
 | Domain | What It Covers | Start Here |
 |---|---|---|
-| Two capability trees | The parallel headless and live-session trees, how to choose between them, and what each tree is for. | [capability-trees.md](capability-trees.md) |
+| Scene routing | The shortest "what do I do first?" summary for the three common entry situations. | [scene-routing.md](scene-routing.md) |
+| Two capability trees | The parallel export-task and live-session trees, how to choose between them, and what each tree is for. | [capability-trees.md](capability-trees.md) |
 | Overview | What ClipNode Media MCP is, how the bridge works, and where the plugin fits. | [README.md](../README.md) |
-| Entry choice | Shortest first-read page for the three main entry situations. | [entry-choice.md](entry-choice.md) |
-| AI execution | Hard routing for current session edit, new export task, and source selection. | [ai-execution.md](ai-execution.md) |
 | Task workflows | Main export-task branch for finished outputs. | [capabilities-task-workflows.md](capabilities-task-workflows.md) |
 | Media discovery and sources | Phone media, asset library, uploads/downloads, validation, and probe flow. | [capabilities-media-sources.md](capabilities-media-sources.md) |
 | Capability surface | Full task types, tool groups, workflow rules, mode matrix, patch grammar, and validation rules. | [capabilities.md](capabilities.md) |
@@ -42,9 +41,8 @@ Recommended order:
 
 Read:
 
+- `docs/scene-routing.md`
 - `docs/capability-trees.md`
-- `docs/entry-choice.md`
-- `docs/ai-execution.md`
 - `docs/capabilities-task-workflows.md`
 - `docs/capabilities-media-sources.md`
 - `README.md`
@@ -56,9 +54,8 @@ Read:
 
 Read:
 
+- `docs/scene-routing.md`
 - `docs/capability-trees.md`
-- `docs/entry-choice.md`
-- `docs/ai-execution.md`
 - `docs/capabilities-task-workflows.md`
 - `docs/capabilities-media-sources.md` if the task needs sources
 - `docs/knowledge-map.md`
@@ -69,10 +66,8 @@ Read:
 
 Read:
 
+- `docs/scene-routing.md`
 - `docs/capability-trees.md`
-- `docs/entry-choice.md`
-- `docs/ai-execution.md`
-- `docs/capabilities-task-workflows.md`
 - `docs/knowledge-map.md`
 - `docs/capabilities-live-session-patching-core.md`
 - `docs/capabilities.md`
@@ -85,9 +80,8 @@ Read:
 
 Read:
 
+- `docs/scene-routing.md`
 - `docs/capability-trees.md`
-- `docs/entry-choice.md`
-- `docs/ai-execution.md`
 - `docs/knowledge-map.md`
 - `docs/troubleshooting.md`
 - `docs/privacy-and-local-service.md`
@@ -96,7 +90,7 @@ Read:
 
 ### Task Workflows
 
-These cover headless export flows such as:
+These cover export task flows such as:
 
 - `video_edit`
 - `video_compress`

@@ -6,17 +6,17 @@ ClipNode Media MCP 是 ClipNode Android App 本地媒体服务的 MCP 桥接项�
 
 这个插件有两条并列的能力树：
 
-- Headless 导出任务：面向请求驱动的成品生成、可批量复用的配方和脚本化输出。
-- 会话 Patch：面向当前打开的编辑页，AI 既可以承接人的实时编辑意图，也可以沉淀后续能被 headless 复用的设置和模板。
+- 任务式导出：面向请求驱动的成品生成、可批量复用的配方和脚本化输出。
+- 会话 Patch：面向当前打开的编辑页，AI 既可以承接人的实时编辑意图，也可以沉淀后续能被 任务式导出复用的设置和模板。
 
-这两条树都重要。Headless 导出任务是主要的生产链路，会话 patch 是交互式设计/编辑链路，而且还能反向喂给后续的模板和任务系统。
+这两条树都重要。任务式导出是主要的生产链路，会话 patch 是交互式设计/编辑链路，而且还能反向喂给后续的模板和任务系统。
 
 ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 [ClipNode](https://play.google.com/store/apps/details?id=cn.com.onthepad.tailor)
 
 ## 先看这里
 
-如果你想让 AI 很快看懂完整能力面，直接用下面的表格选第一跳。
+如果你想让 AI 先快速分流，先读场景摘要页。
 
 重要：不要在沙箱命令里访问 ClipNode 本地服务。需要真实检查本地服务时，请使用沙箱外请求或者 MCP 工具。
 
@@ -24,20 +24,19 @@ ClipNode 当前需要配合 Android App 使用。可从 Google Play 安装：
 
 | 场景 | 先读 |
 |---|---|
+| 先看最短分流 | [docs/scene-routing.zh-CN.md](docs/scene-routing.zh-CN.md) |
 | 先看两条能力树 | [docs/capability-trees.zh-CN.md](docs/capability-trees.zh-CN.md) |
-| 第一次做任务 | [docs/capabilities-task-workflows.md](docs/capabilities-task-workflows.zh-CN.md) |
-| 当前会话编辑 | [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.zh-CN.md) |
-| 找素材或 probe source | [docs/capabilities-media-sources.md](docs/capabilities-media-sources.zh-CN.md) |
+| 需要完整分支图 | [docs/knowledge-map.md](docs/knowledge-map.md) |
 
-如果还需要更长的路径，先看 [docs/entry-choice.md](docs/entry-choice.zh-CN.md) 或 [docs/ai-execution.md](docs/ai-execution.zh-CN.md)，再进入目标分支。
+如果还需要更长的路径，先看 [docs/knowledge-map.md](docs/knowledge-map.md)，再进入目标分支。
 
 如果是会话页里的 AI patch：
 
 1. 先读 [docs/capabilities-live-session-patching-core.md](docs/capabilities-live-session-patching-core.zh-CN.md)。
-2. 再读 [docs/capabilities.md](docs/capabilities.zh-CN.md) 和 [docs/patch-examples.md](docs/patch-examples.zh-CN.md)。
+2. 再读 [docs/capabilities.zh-CN.md](docs/capabilities.zh-CN.md) 和 [docs/patch-examples.zh-CN.md](docs/patch-examples.zh-CN.md)。
 3. 如果只是想先找方向，就先读 [docs/knowledge-map.md](docs/knowledge-map.md)。
 
-如果你是在做成品输出，先读 headless 树。如果你已经在编辑页，再走会话 patch 树。
+如果你是在做成品输出，先读任务式导出树。如果你已经在编辑页，再走会话 patch 树。
 
 后续如果新增了新的工具家族，优先扩展知识地图并新增同级分支，不要把不相关的页面越写越满。
 
@@ -110,6 +109,18 @@ MCP server 只是桥接层，不替代 Android App，也不在电脑端渲染媒
 clipnode_media_get_capabilities
 ```
 
+它默认返回主架构目录。先读这个目录，拿到可用的分类 id。
+
+需要某个分类的明细时，再传一个或多个 `categories`，例如：
+
+```json
+{
+  "categories": ["fileCapabilities", "transitionCatalog"]
+}
+```
+
+这样只会拼进需要的分类，不用一次加载整份能力表。分类 id 就来自主架构目录。
+
 如果能返回能力列表，说明链路已经打通：
 
 ```text
@@ -164,14 +175,14 @@ dist/clipnode-media-mcp-codex.zip
 - “把这个 m3u8 链接转成 MP4，完成后下载到电脑。”
 - “我现在就在 ClipNode 编辑页。给当前草稿底部加一个加粗发光标题，预览一下，并保持可继续编辑。”
 
-更多示例见 [docs/ai-prompts.md](docs/ai-prompts.zh-CN.md)。
+更多示例见 [docs/ai-prompts.zh-CN.md](docs/ai-prompts.zh-CN.md)。
 
 ## 文档
 
 | 文件 | 作用 |
 |---|---|
-| [docs/capabilities.md](docs/capabilities.zh-CN.md) | AI 最优先阅读的能力总览，包含工作流、任务类型、patch grammar、模式规则和 id 处理。 |
-| [docs/ai-prompts.md](docs/ai-prompts.zh-CN.md) | 可直接复制给 AI 客户端的示例提示词。 |
+| [docs/capabilities.zh-CN.md](docs/capabilities.zh-CN.md) | AI 最优先阅读的能力总览，包含工作流、任务类型、patch grammar、模式规则和 id 处理。 |
+| [docs/ai-prompts.zh-CN.md](docs/ai-prompts.zh-CN.md) | 可直接复制给 AI 客户端的示例提示词。 |
 | [docs/showcase.zh-CN.md](docs/showcase.zh-CN.md) | App 能力展示页，目前从转场演示开始，后续可扩展更多作品能力。 |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 连接失败、PIN、局域网、权限、上传下载和导出失败排查。 |
 | [docs/privacy-and-local-service.md](docs/privacy-and-local-service.md) | 本地服务、PIN、媒体访问、隐私和安全说明。 |

@@ -4,6 +4,8 @@
 
 这一分支覆盖目录、内置模板和风格系统。AI 不应该自己瞎编这些名字。
 
+先用 `clipnode_media_get_capabilities` 拿摘要，真正要精确名字时再查下面的目录工具。
+
 ## 转场目录
 
 ClipNode 内置 100+ GL 转场动画。

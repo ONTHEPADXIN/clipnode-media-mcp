@@ -8,7 +8,7 @@ This is the prompt index. Read the branch that matches the user goal, then use t
 
 | Branch | What It Covers | Start Here |
 |---|---|---|
-| Task prompts | Natural-language prompts for headless media tasks. | [ai-prompts-task-workflows.md](ai-prompts-task-workflows.md) |
+| Task prompts | Natural-language prompts for export task workflows. | [ai-prompts-task-workflows.md](ai-prompts-task-workflows.md) |
 | Live edit prompts | Natural-language prompts for interactive session patching. | [ai-prompts-live-session.md](ai-prompts-live-session.md) |
 | Troubleshooting prompts | Natural-language prompts for debugging and recovery. | [ai-prompts-troubleshooting.md](ai-prompts-troubleshooting.md) |
 

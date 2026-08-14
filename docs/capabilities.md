@@ -2,9 +2,13 @@
 
 This is the English capability index for ClipNode Media MCP.
 
+Treat `clipnode_media_get_capabilities` as the main directory entry. Pass `categories` only when you need specific branches merged into the response, then use the branch pages and list/get catalog tools for exact names.
+
+Shared enum values such as `sourceRefTypes`, `canvasPresets`, `fitModes`, and `exportPresets` live in `commonEnums` in the same response.
+
 There are two primary capability trees:
 
-- Headless export tasks for request-driven output creation.
+- Export task workflows for request-driven output creation.
 - Live session patching for the current edit page and reusable template shaping.
 
 If you want the Chinese companion, read [capabilities.zh-CN.md](capabilities.zh-CN.md).
@@ -15,7 +19,7 @@ Read this page first, then open only the branch that matches the current goal.
 
 | Branch | What It Covers | Start Here |
 |---|---|---|
-| Task workflows | Headless export tasks, supported task types, default workflows, and token-saving rules. | [capabilities-task-workflows.md](capabilities-task-workflows.md) |
+| Task workflows | Export task workflows, supported task types, default workflows, and token-saving rules. | [capabilities-task-workflows.md](capabilities-task-workflows.md) |
 | Live session patching | The current edit page, patch decision order, interactive session flow, and live patch behavior. | [capabilities-live-session-patching.md](capabilities-live-session-patching.md) |
 | Live session core | Fast-read entry for current-state priority, patch selection, and export handoff. | [capabilities-live-session-patching-core.md](capabilities-live-session-patching-core.md) |
 | Media sources | Phone media, asset library, uploads/downloads, source probing, and local-service access rules. | [capabilities-media-sources.md](capabilities-media-sources.md) |

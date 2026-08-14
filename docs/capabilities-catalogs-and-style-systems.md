@@ -4,6 +4,8 @@
 
 This branch covers catalogs, built-in reference templates, and the style systems AI should consult instead of inventing names.
 
+Use `clipnode_media_get_capabilities` first for the summary, then call the catalog tools below for exact choices.
+
 ## Transition Catalog
 
 ClipNode includes 100+ GL transition effects.

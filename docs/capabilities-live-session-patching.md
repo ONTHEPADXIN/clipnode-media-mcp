@@ -67,4 +67,4 @@ Use `clipnode_edit_create_export` when the user wants the live draft exported.
 
 Use `clipnode_edit_validate_export` only for read-only preflight.
 
-The export panel is shown by the App; this is not a headless job flow.
+The export panel is shown by the App; this is not an export task workflow.
